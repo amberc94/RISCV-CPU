@@ -9,8 +9,8 @@ entity Reg_File is
          DATA_OUT   : out STD_LOGIC_VECTOR(31 downto 0);
          ADDRESS    : in STD_LOGIC_VECTOR(4 downto 0);
          WRITE      : in STD_LOGIC;
-         CLK      : in STD_LOGIC
-         --RESET      : in STD_LOGIC
+         CLK        : in STD_LOGIC;
+         RESET      : in STD_LOGIC
        );
 end Reg_File;
 
@@ -20,12 +20,11 @@ type t_REG_BUFFER is array (0 to 31) of std_logic_vector(31 downto 0);
 signal IN_BUFFER    : STD_LOGIC_VECTOR(31 downto 0);
 signal OUT_BUFFER   : t_reg_buffer;
 signal WRITE_FLAG   : STD_LOGIC_VECTOR(31 downto 0) := x"00000000";
-signal RESET        : STD_LOGIC := '1';
 
 begin
 
 
-X0: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(0), CLK => CLK, RESET => RESET, WRITE => WRITE_FLAG(0));
+X0: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(0), CLK => CLK, RESET => '0', WRITE => WRITE_FLAG(0));
 X1: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(1), CLK => CLK, RESET => RESET, WRITE => WRITE_FLAG(1));
 X2: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(2), CLK => CLK, RESET => RESET, WRITE => WRITE_FLAG(2));
 X3: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(3), CLK => CLK, RESET => RESET, WRITE => WRITE_FLAG(3));
@@ -68,12 +67,5 @@ process(WRITE, CLK, ADDRESS) begin
         WRITE_FLAG <= x"00000000";
     end if;
 end process;
-
---process(clk) begin
---    WRITE_FLAG <= x"00000000";
---    if(WRITE = '1' and rising_edge(clk)) then
---        WRITE_FLAG(to_integer(unsigned(address))) <= '1';
---    end if; 
---end process;
 
 end Behavioral;
