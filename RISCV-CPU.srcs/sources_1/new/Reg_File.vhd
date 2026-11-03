@@ -6,9 +6,12 @@ use work.all;
 
 entity Reg_File is
   Port ( DATA_IN    : in STD_LOGIC_VECTOR(31 downto 0);
-         DATA_OUT   : out STD_LOGIC_VECTOR(31 downto 0);
-         ADDRESS    : in STD_LOGIC_VECTOR(4 downto 0);
+         RS1_OUT    : out STD_LOGIC_VECTOR(31 downto 0);
+         RS2_OUT    : out STD_LOGIC_VECTOR(31 downto 0);
+         RS1_ADDR   : in STD_LOGIC_VECTOR(4 downto 0);
+         RS2_ADDR   : in STD_LOGIC_VECTOR(4 downto 0);
          WRITE      : in STD_LOGIC;
+         WRITE_ADDR : in STD_LOGIC_VECTOR(4 downto 0);
          CLK        : in STD_LOGIC;
          RESET      : in STD_LOGIC
        );
@@ -57,12 +60,13 @@ X29: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(2
 X30: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(30), CLK => CLK, RESET => RESET, WRITE => WRITE_FLAG(30));
 X31: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(31), CLK => CLK, RESET => RESET, WRITE => WRITE_FLAG(31));
 
-DATA_OUT <= OUT_BUFFER(to_integer(unsigned(ADDRESS)));
+RS1_OUT <= OUT_BUFFER(to_integer(unsigned(RS1_ADDR)));
+RS2_OUT <= OUT_BUFFER(to_integer(unsigned(RS2_ADDR)));
 IN_BUFFER <= DATA_IN;
-process(WRITE, CLK, ADDRESS) begin
+process(WRITE, CLK, WRITE_ADDR) begin
     if(WRITE = '1') then
         WRITE_FLAG <= x"00000000";
-        WRITE_FLAG(to_integer(unsigned(address))) <= '1';
+        WRITE_FLAG(to_integer(unsigned(WRITE_ADDR))) <= '1';
     elsif(WRITE = '0') then
         WRITE_FLAG <= x"00000000";
     end if;
