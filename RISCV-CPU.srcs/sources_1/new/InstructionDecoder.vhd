@@ -1,6 +1,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use work.all;
 
 
 entity InstructionDecoder is
@@ -26,7 +27,10 @@ entity InstructionDecoder is
            MEM_WRITE    : out STD_LOGIC;                        -- LUT Ram write
            MEM_READ     : out STD_LOGIC;                        -- LUT Ram read
            JB_SELECT    : out STD_LOGIC_VECTOR(1 downto 0);     -- PC Next mux selector
-           IMM_SELECT   : out STD_LOGIC_VECTOR(2 downto 0)      -- Immediate Generator Logic
+           IMM_SELECT   : out STD_LOGIC_VECTOR(2 downto 0);      -- Immediate Generator Logic
+           RS1          : out STD_LOGIC_VECTOR(4 downto 0);      -- Rs1 address
+           RS2          : out STD_LOGIC_VECTOR(4 downto 0);     -- Rs 2 address
+           RD           : out STD_LOGIC_VECTOR(4 downto 0)      -- Rd address
      );
 end InstructionDecoder;
 
@@ -143,5 +147,29 @@ begin
         "011" when AUIPC,
         "011" when LUI,
         "000" when others;
+    
+    with OPCODE select RS1 <=
+        Instructions(19 downto 15) when OP,
+        Instructions(19 downto 15) when OP_IMM,
+        Instructions(19 downto 15) when JALR,
+        Instructions(19 downto 15) when LOAD,
+        Instructions(19 downto 15) when STORE,
+        Instructions(19 downto 15) when BRANCH,
+        "00000" when others;
+        
+    with OPCODE select RS2 <=
+        Instructions(24 downto 20) when OP,
+        Instructions(24 downto 20) when STORE,
+        Instructions(24 downto 20) when BRANCH,
+        "00000" when others;
+        
+    with OPCODE select RD <=
+        Instructions(11 downto 7) when OP,
+        Instructions(11 downto 7) when OP_IMM,
+        Instructions(11 downto 7) when JALR,
+        Instructions(11 downto 7) when LOAD,
+        Instructions(11 downto 7) when LUI,
+        Instructions(11 downto 7) when AUIPC,
+        "00000" when others;          
     
 end Behavioral;
