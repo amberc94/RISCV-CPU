@@ -29,9 +29,11 @@ begin
     BRANCH_TYPE <=
         FUNC3 when ALU_TYPE = BRANCH else
         "010";
+    
+    -- this should really be reworked to just have a sign/unsign flag    
     ALU_CONTROL <= 
         "0000" when ALU_TYPE = ADD else -- most functions
-        "0001" when ALU_TYPE = BRANCH else -- all branch options are simply going to rs1 - rs2 and check the ALU zr/ng flags 
+        "0001" when (ALU_TYPE = BRANCH and not(FUNC3 = "110" or FUNC3 = "111"))  else -- all branch options are simply going to rs1 - rs2 and check the ALU zr/ng flags (except unsigned checks)
         "0000" when(FUNC3 = "000" and ((ALU_TYPE = F3) or (ALU_TYPE = F7 and FUNC7(5) = '0'))) else -- ADD
         "0001" when(FUNC3 = "000" and ALU_TYPE = F7 and FUNC7(5) = '1') else                        -- SUB
         "0010" when(FUNC3 = "100" and ((ALU_TYPE = F3) or (ALU_TYPE = F7)))else                     -- XOR
@@ -42,6 +44,7 @@ begin
         "0111" when(FUNC3 = "001" and (ALU_TYPE = F3 or ALU_TYPE = F7)) else                        -- SLL(I) Shift Left
         "1000" when(FUNC3 = "101" and ((ALU_TYPE = F3) or (ALU_TYPE = F7 and FUNC7(5) = '0'))) else -- SRL(I) Shift Right
         "1001" when(FUNC3 = "101" and ((ALU_TYPE = F3) or (ALU_TYPE = F7 and FUNC7(5) = '1'))) else -- SRAI Shift Right Arithmatic
+        "1010" when(ALU_TYPE = BRANCH and (FUNC3 = "110" or FUNC3 = "111")) else                    -- SUBU     
         "0000"; -- fail to add
     
 
