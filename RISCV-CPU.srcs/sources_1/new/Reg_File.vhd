@@ -2,6 +2,8 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
+library work;
+use work.config_pkg.all;
 use work.all;
 
 entity Reg_File is
@@ -59,7 +61,7 @@ X28: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(2
 X29: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(29), CLK => CLK, RESET => RESET, WRITE => WRITE_FLAG(29));
 X30: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(30), CLK => CLK, RESET => RESET, WRITE => WRITE_FLAG(30));
 X31: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(31), CLK => CLK, RESET => RESET, WRITE => WRITE_FLAG(31));
-
+     
 RS1_OUT <= OUT_BUFFER(to_integer(unsigned(RS1_ADDR)));
 RS2_OUT <= OUT_BUFFER(to_integer(unsigned(RS2_ADDR)));
 IN_BUFFER <= DATA_IN;
@@ -72,4 +74,33 @@ process(WRITE, CLK, WRITE_ADDR) begin
     end if;
 end process;
 
+-- this logic will need to be transferred over to the data memory 
+-- it's easier to just read the full 32 bits and slice it up there
+
+--process(SIZE, RS2_ADDR) begin
+--    WORK_BUFFER <= OUT_BUFFER(to_integer(unsigned(RS2_ADDR)));
+--    SIGN_BIT <= WORK_BUFFER(31);
+--    case SIZE is
+--        when WORD =>
+--            -- do nothing
+--        when BYTE =>
+--            for i in 31 downto 7 loop
+--                WORK_BUFFER(i) <= '0';
+--            end loop;
+--        when BYTEU =>
+--            for i in 31 downto 7 loop
+--                WORK_BUFFER(i) <= SIGN_BIT;
+--            end loop;
+--        when HALF =>
+--            for i in 31 downto 15 loop
+--                WORK_BUFFER(i) <= '0';
+--            end loop;
+--        when HALFU =>
+--            for i in 31 downto 15 loop
+--                WORK_BUFFER(i) <= SIGN_BIT;
+--            end loop;
+--        when others =>
+--                -- do nothing
+--     end case;
+--end process;
 end Behavioral;

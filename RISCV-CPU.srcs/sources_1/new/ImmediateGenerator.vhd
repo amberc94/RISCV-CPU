@@ -1,17 +1,12 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+library work;
+use work.config_pkg.all;
 use work.all;
 
 entity ImmediateGenerator is
-  Generic(
-         constant R_TYPE : STD_LOGIC_VECTOR := "000";
-         constant I_TYPE : STD_LOGIC_VECTOR := "001";
-         constant S_TYPE : STD_LOGIC_VECTOR := "010";
-         constant U_TYPE : STD_LOGIC_VECTOR := "011";
-         constant B_TYPE : STD_LOGIC_VECTOR := "100";
-         constant J_TYPE : STD_LOGIC_VECTOR := "101"
-         );
+
   Port ( Instructions : in STD_LOGIC_VECTOR(31 downto 0);
          IMM_SELECT   : in STD_LOGIC_VECTOR(2 downto 0);
          Immediate    : out STD_LOGIC_VECTOR(31 downto 0)

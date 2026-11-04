@@ -1,16 +1,12 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+library work;
+use work.config_pkg.all;
+use work.all;
 
 entity BranchLogic is
-  Generic( constant BEQ          : STD_LOGIC_VECTOR(2 downto 0) := "000";
-           constant BNE          : STD_LOGIC_VECTOR(2 downto 0) := "001";
-           constant BLT          : STD_LOGIC_VECTOR(2 downto 0) := "100";
-           constant BGE          : STD_LOGIC_VECTOR(2 downto 0) := "101";
-           constant BLTU         : STD_LOGIC_VECTOR(2 downto 0) := "110";
-           constant BGEU         : STD_LOGIC_VECTOR(2 downto 0) := "111"
-         );
-           
+      
   Port ( BRANCH_TYPE    : in STD_LOGIC_VECTOR(2 downto 0);
          ZR             : in STD_LOGIC;
          NG             : in STD_LOGIC;
