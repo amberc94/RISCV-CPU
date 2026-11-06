@@ -11,12 +11,14 @@ architecture Behavioral of CPU_tb is
 
 component CPU is port(
     CLOCK   : in STD_LOGIC;
-    RESET   : in STD_LOGIC
+    RESET   : in STD_LOGIC;
+    DEBUG_OUTPUT : out STD_LOGIC_VECTOR(31 downto 0)
     );
 end component;
 
 signal CLOCK    : STD_LOGIC := '0';
 signal RESET    : STD_LOGIC := '0';
+signal DEBUG_OUTPUT : STD_LOGIC_VECTOR(31 downto 0);
 
 constant ClockFreq : integer := 10e3; --1khz
 constant ClockPeriod : time := 1000ms / ClockFreq;
@@ -27,7 +29,8 @@ begin
 
     uut: CPU port map (
         CLOCK => CLOCK,
-        RESET => RESET
+        RESET => RESET,
+        DEBUG_OUTPUT => DEBUG_OUTPUT
     );
     
     CLOCK <= not CLOCK after ClockPeriod / 2;

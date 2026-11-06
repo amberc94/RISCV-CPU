@@ -22,7 +22,11 @@ signal SHIFT_BUFFER     : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
 
-process(A,B,SIGN,ALU_CONTROL) begin
+process(A,B,SIGN,ALU_CONTROL)
+
+variable B_INT : integer := to_integer(unsigned(B));
+
+begin
 
 case ALU_CONTROL is
     when ALU_ADD =>
@@ -52,9 +56,11 @@ case ALU_CONTROL is
         ALU_RESULT <= std_logic_vector(shift_right(signed(A),to_integer(signed(B))));
      when ALU_SRA =>
          SHIFT_BUFFER <= A;
-         for i in 0 to to_integer(unsigned(B)) loop
-            SHIFT_BUFFER <= std_logic_vector(shift_right(signed(SHIFT_BUFFER),1));
-            SHIFT_BUFFER(31) <= B(31);
+         for i in 0 to 31 loop
+            if i <= B_INT then
+                SHIFT_BUFFER <= std_logic_vector(shift_right(signed(SHIFT_BUFFER),1));
+                SHIFT_BUFFER(31) <= B(31);
+            end if;
          end loop;
          ALU_RESULT <= SHIFT_BUFFER;
      when others =>

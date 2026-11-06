@@ -4,7 +4,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 use work.all;
 
 entity CPU is
-  Port ( CLOCK, RESET   : in STD_LOGIC );
+  Port ( CLOCK, RESET   : in STD_LOGIC;
+         DEBUG_OUTPUT   : out STD_LOGIC_VECTOR(31 downto 0)
+        );
 end CPU;
 
 architecture Behavioral of CPU is
@@ -208,4 +210,7 @@ BranchLogic: entity work.BranchLogic port map(
     WB_SELECT => WB_SELECT,
     WB_OUT => WB_OUT
  );
+ 
+ DEBUG_OUTPUT <= WB_OUT;
+ 
 end Behavioral;
