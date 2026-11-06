@@ -33,75 +33,42 @@ signal WRITE_FLAG   : STD_LOGIC_VECTOR(15 downto 0) := x"0000";
 type t_RAM_BUFFER is array (0 to 15) of std_logic_vector(31 downto 0);
 signal OUT_BUFFER   : t_RAM_BUFFER;
 signal WRITE_BUFFER : STD_LOGIC_VECTOR(31 downto 0);
-signal SIGN_BIT     : STD_LOGIC;
-
+signal WRITE_MASK   : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
 
 BLOCK_ADD <= ADDRESS(5 downto 0);
 TOP_ADD <= ADDRESS(9 downto 6);
 
-x0: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(0), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(0));
-x1: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(1), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(1));
-x2: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(2), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(2));
-x3: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(3), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(3));
-x4: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(4), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(4));
-x5: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(5), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(5));
-x6: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(6), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(6));
-x7: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(7), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(7));
-x8: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(8), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(8));
-x9: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(9), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(9));
-x10: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(10), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(10));
-x11: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(11), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(11));
-x12: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(12), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(12));
-x13: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(13), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(13));
-x14: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(14), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(14));
-x15: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(15), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(15));
+x0: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(0), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(0), WRITE_MASK=>WRITE_MASK);
+x1: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(1), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(1), WRITE_MASK=>WRITE_MASK);
+x2: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(2), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(2), WRITE_MASK=>WRITE_MASK);
+x3: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(3), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(3), WRITE_MASK=>WRITE_MASK);
+x4: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(4), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(4), WRITE_MASK=>WRITE_MASK);
+x5: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(5), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(5), WRITE_MASK=>WRITE_MASK);
+x6: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(6), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(6), WRITE_MASK=>WRITE_MASK);
+x7: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(7), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(7), WRITE_MASK=>WRITE_MASK);
+x8: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(8), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(8), WRITE_MASK=>WRITE_MASK);
+x9: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(9), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(9), WRITE_MASK=>WRITE_MASK);
+x10: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(10), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(10), WRITE_MASK=>WRITE_MASK);
+x11: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(11), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(11), WRITE_MASK=>WRITE_MASK);
+x12: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(12), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(12), WRITE_MASK=>WRITE_MASK);
+x13: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(13), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(13), WRITE_MASK=>WRITE_MASK);
+x14: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(14), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(14), WRITE_MASK=>WRITE_MASK);
+x15: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(15), ADDRESS=>BLOCK_ADD, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(15), WRITE_MASK=>WRITE_MASK);
 
+DATA_OUT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
+WRITE_BUFFER <= DATA_IN;
 
-process(ADDRESS, WIDTH) begin
-    case WIDTH is
-        when "010" => -- lw, sw
-            DATA_OUT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
-            WRITE_BUFFER <= DATA_IN;
-        when "001" => -- lh, sh
-            DATA_OUT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
-            SIGN_BIT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)))(31); 
-            for i in 31 downto 16 loop
-                DATA_OUT(i) <= SIGN_BIT;
-            end loop;
-            WRITE_BUFFER <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
-            WRITE_BUFFER(15 downto 0) <= DATA_IN(15 downto 0);
-        when "000" => --lb, sb
-            DATA_OUT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
-            SIGN_BIT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)))(31);
-            for i in 31 downto 8 loop
-                DATA_OUT(i) <= SIGN_BIT;
-            end loop;
-            WRITE_BUFFER <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
-            WRITE_BUFFER(7 downto 0) <= DATA_IN(7 downto 0);
-        when "100" => -- lbu
-            DATA_OUT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
-            SIGN_BIT <= '0';
-            for i in 31 downto 8 loop
-                DATA_OUT(i) <= SIGN_BIT;
-            end loop;
-        when "101" => -- lhu
-            DATA_OUT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
-            SIGN_BIT <= '0';
-            for i in 31 downto 16 loop
-                DATA_OUT(i) <= SIGN_BIT;
-            end loop;
-        when others =>
-            DATA_OUT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
-            WRITE_BUFFER <= DATA_IN;
-       end case;
- end process;
+WRITE_MASK <=
+    x"0000FFFF" when WIDTH = "001" or WIDTH = "101" else -- half
+    x"000000FF" when WIDTH = "000" or WIDTH = "100" else -- byte
+    x"FFFFFFFF";
        
-process(WRITE, CLK, ADDRESS) begin
+process(WRITE, ADDRESS, CLK) begin
     if(WRITE = '1') then
         WRITE_FLAG <= x"0000";
-        WRITE_FLAG(to_integer(unsigned(TOP_ADD))) <= '1';
+        WRITE_FLAG(to_integer(unsigned(ADDRESS(9 downto 6)))) <= '1';
     elsif(WRITE = '0') then
         WRITE_FLAG <= x"0000";
     end if;

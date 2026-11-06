@@ -18,7 +18,8 @@ component Block256 is
         CLK, WRITE  : in STD_LOGIC;
         ADDRESS     : in STD_LOGIC_VECTOR(5 downto 0);
         DATA_IN     : in STD_LOGIC_VECTOR(31 downto 0);
-        DATA_OUT    : out STD_LOGIC_VECTOR(31 downto 0)
+        DATA_OUT    : out STD_LOGIC_VECTOR(31 downto 0);
+        WRITE_MASK  : in STD_LOGIC_VECTOR(31 downto 0)
         );
 end component;
 
@@ -31,6 +32,7 @@ signal WRITE         : STD_LOGIC := '0';
 signal ADDRESS       : STD_LOGIC_VECTOR(5 downto 0);
 signal DATA_IN       : STD_LOGIC_VECTOR(31 downto 0);
 signal DATA_OUT      : STD_LOGIC_VECTOR(31 downto 0);
+signal WRITE_MASK    : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
 
@@ -39,14 +41,15 @@ begin
         WRITE => WRITE,
         ADDRESS => ADDRESS,
         DATA_IN => DATA_IN,
-        DATA_OUT => DATA_OUT
+        DATA_OUT => DATA_OUT,
+        WRITE_MASK => WRITE_MASK
         );
         
         
         CLK <= not CLK after ClockPeriod /2;
         
         stim_proc:process begin
-
+        WRITE_MASK <= x"11111111";
         address <= std_logic_vector(to_unsigned(24,6));
         write <= '1';
         data_in <= x"DEADBEEF";

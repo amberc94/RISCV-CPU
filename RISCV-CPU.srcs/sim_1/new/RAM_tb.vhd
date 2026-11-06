@@ -86,6 +86,8 @@ begin
         write <= '1';
         data_in <= x"FFFFFFFF";
         
+        wait for clockPeriod;
+        
         
         end process;
 
