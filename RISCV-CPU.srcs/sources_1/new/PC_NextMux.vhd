@@ -2,6 +2,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
+use work.config_pkg.all;
 use work.all;
 
 entity PC_NextMux is
@@ -10,7 +11,8 @@ entity PC_NextMux is
           PC       : in STD_LOGIC_VECTOR(31 downto 0);
           ALU_OUT  : in STD_LOGIC_VECTOR(31 downto 0);
           B_LOGIC  : in STD_LOGIC;
-          PC_NEXT  : out STD_LOGIC_VECTOR(31 downto 0)
+          PC_NEXT  : out STD_LOGIC_VECTOR(31 downto 0);
+          PC_4_OUT : out STD_LOGIC_VECTOR(31 downto 0)
        );
           
 end PC_NextMux;
@@ -29,5 +31,6 @@ begin
                PC_IMM when JB_SELECT = PC_JAL else
                ALU_OUT when JB_SELECT = PC_JALR else
                PC_INC;
+    PC_4_OUT <= PC_INC;
                
 end Behavioral;

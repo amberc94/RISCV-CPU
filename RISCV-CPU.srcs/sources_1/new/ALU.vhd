@@ -57,6 +57,8 @@ case ALU_CONTROL is
             SHIFT_BUFFER(31) <= B(31);
          end loop;
          ALU_RESULT <= SHIFT_BUFFER;
+     when others =>
+        ALU_RESULT <= x"00000000";
  end case;
  
  if(signed(ALU_RESULT) = 0) then

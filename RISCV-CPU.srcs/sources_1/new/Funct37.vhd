@@ -21,7 +21,7 @@ signal FUNC7 : STD_LOGIC_VECTOR(6 downto 0);
 
 begin
     FUNC3 <= Instructions(14 downto 12);
-    FUNC7 <= Instructions(31 downto 26);
+    FUNC7 <= Instructions(31 downto 25);
     WIDTH <= FUNC3;
     BRANCH_TYPE <=
         FUNC3 when ALU_TYPE = BRANCH_F else
