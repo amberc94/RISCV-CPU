@@ -66,18 +66,13 @@ case ALU_CONTROL is
      when others =>
         ALU_RESULT <= x"00000000";
  end case;
- 
- if(signed(ALU_RESULT) = 0) then
-    ZR <= '1';
- else
-    ZR <= '0';
-end if;
-
-if(signed(ALU_RESULT) < 0) then
-    NG <= '1';
-else
-    NG <= '0';
-end if;
- 
 end process;
+
+ZR <=
+    '1' when (signed(ALU_RESULT) = 0) else
+    '0';
+NG <=
+    '1' when (signed(ALU_RESULT) < 0) else
+    '0';
+     
 end Behavioral;
