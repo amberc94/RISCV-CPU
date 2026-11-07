@@ -22,7 +22,7 @@ signal PC_INC : STD_LOGIC_VECTOR(31 downto 0);
 signal PC_IMM : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
-    PC_INC <= std_logic_vector(unsigned(PC) + 4);
+    PC_INC <= std_logic_vector(unsigned(PC) + 1);
     PC_IMM <= std_logic_vector(unsigned(PC) + unsigned(IMM));
     
     PC_NEXT <= PC_INC when JB_SELECT = PC_4 else
