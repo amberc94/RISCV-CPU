@@ -60,5 +60,23 @@ x15: entity work.Block256 port map(CLK=>CLK, WRITE=>WRITE_FLAG(15), ADDRESS=>BLO
 DATA_OUT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
 WRITE_BUFFER <= DATA_IN;
 
-
+WRITE_FLAG <=
+    x"0001" when unsigned(TOP_ADD) = 0 else
+    x"0002" when unsigned(TOP_ADD) = 1 else 
+    x"0004" when unsigned(TOP_ADD) = 2 else
+    x"0008" when unsigned(TOP_ADD) = 3 else 
+    x"0010" when unsigned(TOP_ADD) = 4 else
+    x"0020" when unsigned(TOP_ADD) = 5 else 
+    x"0040" when unsigned(TOP_ADD) = 6 else
+    x"0080" when unsigned(TOP_ADD) = 7 else
+    x"0100" when unsigned(TOP_ADD) = 8 else
+    x"0200" when unsigned(TOP_ADD) = 9 else 
+    x"0400" when unsigned(TOP_ADD) = 10 else
+    x"0800" when unsigned(TOP_ADD) = 11 else 
+    x"1000" when unsigned(TOP_ADD) = 12 else
+    x"2000" when unsigned(TOP_ADD) = 13 else 
+    x"4000" when unsigned(TOP_ADD) = 14 else
+    x"8000" when unsigned(TOP_ADD) = 15 else
+    x"0000";
+    
 end Behavioral;

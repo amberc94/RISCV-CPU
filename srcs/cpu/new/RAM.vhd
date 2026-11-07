@@ -32,11 +32,11 @@ architecture Behavioral of RAM is
 signal BLOCK256_ADD    : STD_LOGIC_VECTOR(5 downto 0);
 signal BLOCK4KB_ADD    : STD_LOGIC_VECTOR(3 downto 0);
 signal TOP_ADD         : STD_LOGIC_VECTOR(2 downto 0);
-signal WRITE_FLAG      : STD_LOGIC_VECTOR(15 downto 0) := x"0000";
+signal WRITE_FLAG      : STD_LOGIC_VECTOR(7 downto 0) := x"00";
 type t_RAM_BUFFER is array (0 to 15) of std_logic_vector(31 downto 0);
 signal OUT_BUFFER   : t_RAM_BUFFER;
 signal WRITE_BUFFER : STD_LOGIC_VECTOR(31 downto 0);
-signal WRITE_MASK   : STD_LOGIC_VECTOR(31 downto 0);
+signal WRITE_MASK   : STD_LOGIC_VECTOR(31 downto 0) := x"00000000";
 
 begin
 
@@ -52,7 +52,7 @@ x4: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(4), ADDRESS=>ADDRE
 x5: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(5), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(5), WRITE_MASK=>WRITE_MASK);
 x6: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(6), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(6), WRITE_MASK=>WRITE_MASK);
 x7: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(7), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(7), WRITE_MASK=>WRITE_MASK);
-x8: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(8), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(8), WRITE_MASK=>WRITE_MASK);
+--x8: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(8), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(8), WRITE_MASK=>WRITE_MASK);
 
 DATA_OUT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
 WRITE_BUFFER <= DATA_IN;
@@ -61,14 +61,18 @@ WRITE_MASK <=
     x"0000FFFF" when WIDTH = "001" or WIDTH = "101" else -- half
     x"000000FF" when WIDTH = "000" or WIDTH = "100" else -- byte
     x"FFFFFFFF";
+    
+WRITE_FLAG <=
+    "00000001" when unsigned(TOP_ADD) = 0 else
+    "00000010" when unsigned(TOP_ADD) = 1 else 
+    "00000100" when unsigned(TOP_ADD) = 2 else
+    "00001000" when unsigned(TOP_ADD) = 3 else 
+    "00010000" when unsigned(TOP_ADD) = 4 else
+    "00100000" when unsigned(TOP_ADD) = 5 else 
+    "01000000" when unsigned(TOP_ADD) = 6 else
+    "10000000" when unsigned(TOP_ADD) = 7 else
+    "00000000"; 
        
-process(WRITE, ADDRESS, CLK) begin
-    if(WRITE = '1') then
-        WRITE_FLAG <= x"0000";
-        WRITE_FLAG(to_integer(unsigned(ADDRESS(9 downto 6)))) <= '1';
-    elsif(WRITE = '0') then
-        WRITE_FLAG <= x"0000";
-    end if;
-end process;
+
 
 end Behavioral;
