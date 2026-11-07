@@ -25,18 +25,26 @@ end Block256;
 
 architecture Behavioral of Block256 is
 signal WM : STD_LOGIC_VECTOR(31 downto 0);
+signal READ_BUFFER: STD_LOGIC_VECTOR(31 downto 0) := x"00000000";
+signal REG_CLOCK : STD_LOGIC;
 
 begin
+
+REG_CLOCK <= not CLK;
 
 WM <= 
 WRITE_MASK when WRITE = '1' else
 x"00000000";
 
+OutReg: entity work.Reg_32Bit port map(REG_IN => READ_BUFFER, CLK => REG_CLOCK, WRITE => '1', RESET => '1', REG_OUT => DATA_OUT);
+
+
+
 
 x0 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(0),        -- 1-bit data output
+   O => READ_BUFFER(0),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -51,7 +59,7 @@ port map (
 x1 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(1),        -- 1-bit data output
+   O => READ_BUFFER(1),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -66,7 +74,7 @@ port map (
 x2 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(2),        -- 1-bit data output
+   O => READ_BUFFER(2),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -82,7 +90,7 @@ port map (
 x3 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(3),        -- 1-bit data output
+   O => READ_BUFFER(3),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -97,7 +105,7 @@ port map (
 x4 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(4),        -- 1-bit data output
+   O => READ_BUFFER(4),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -112,7 +120,7 @@ port map (
 x5 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(5),        -- 1-bit data output
+   O => READ_BUFFER(5),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -127,7 +135,7 @@ port map (
 x6 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(6),        -- 1-bit data output
+   O => READ_BUFFER(6),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -142,7 +150,7 @@ port map (
 x7 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(7),        -- 1-bit data output
+   O => READ_BUFFER(7),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -157,7 +165,7 @@ port map (
 x8: RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(8),        -- 1-bit data output
+   O => READ_BUFFER(8),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -172,7 +180,7 @@ port map (
 x9 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(9),        -- 1-bit data output
+   O => READ_BUFFER(9),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -187,7 +195,7 @@ port map (
 x10 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(10),        -- 1-bit data output
+   O => READ_BUFFER(10),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -203,7 +211,7 @@ port map (
 x11 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(11),        -- 1-bit data output
+   O => READ_BUFFER(11),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -218,7 +226,7 @@ port map (
 x12 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(12),        -- 1-bit data output
+   O => READ_BUFFER(12),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -233,7 +241,7 @@ port map (
 x13 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(13),        -- 1-bit data output
+   O => READ_BUFFER(13),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -248,7 +256,7 @@ port map (
 x14 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(14),        -- 1-bit data output
+   O => READ_BUFFER(14),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -263,7 +271,7 @@ port map (
 x15 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(15),        -- 1-bit data output
+   O => READ_BUFFER(15),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -278,7 +286,7 @@ port map (
 x16 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(16),        -- 1-bit data output
+   O => READ_BUFFER(16),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -293,7 +301,7 @@ port map (
 x17 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(17),        -- 1-bit data output
+   O => READ_BUFFER(17),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -308,7 +316,7 @@ port map (
 x18 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(18),        -- 1-bit data output
+   O => READ_BUFFER(18),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -324,7 +332,7 @@ port map (
 x19 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(19),        -- 1-bit data output
+   O => READ_BUFFER(19),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -339,7 +347,7 @@ port map (
 x20 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(20),        -- 1-bit data output
+   O => READ_BUFFER(20),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -354,7 +362,7 @@ port map (
 x21 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(21),        -- 1-bit data output
+   O => READ_BUFFER(21),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -369,7 +377,7 @@ port map (
 x22 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(22),        -- 1-bit data output
+   O => READ_BUFFER(22),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -384,7 +392,7 @@ port map (
 x23 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(23),        -- 1-bit data output
+   O => READ_BUFFER(23),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -399,7 +407,7 @@ port map (
 x24 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(24),        -- 1-bit data output
+   O => READ_BUFFER(24),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -414,7 +422,7 @@ port map (
 x25 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(25),        -- 1-bit data output
+   O => READ_BUFFER(25),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -429,7 +437,7 @@ port map (
 x26 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(26),        -- 1-bit data output
+   O => READ_BUFFER(26),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -445,7 +453,7 @@ port map (
 x27 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(27),        -- 1-bit data output
+   O => READ_BUFFER(27),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -460,7 +468,7 @@ port map (
 x28 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(28),        -- 1-bit data output
+   O => READ_BUFFER(28),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -475,7 +483,7 @@ port map (
 x29 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(29),        -- 1-bit data output
+   O => READ_BUFFER(29),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -490,7 +498,7 @@ port map (
 x30 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(30),        -- 1-bit data output
+   O => READ_BUFFER(30),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
@@ -505,7 +513,7 @@ port map (
 x31 : RAM64X1S 
 generic map (INIT => X"0000000000000000")
 port map (
-   O => DATA_OUT(31),        -- 1-bit data output
+   O => READ_BUFFER(31),        -- 1-bit data output
    A0 => ADDRESS(0),      -- Address[0] input bit
    A1 => ADDRESS(1),      -- Address[1] input bit
    A2 => ADDRESS(2),      -- Address[2] input bit
