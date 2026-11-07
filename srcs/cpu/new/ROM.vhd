@@ -58,7 +58,7 @@ constant ROM_WIDTH : natural := 32;
 type ROM_TYPE is array (0 to ROM_DEPTH -1) of STD_LOGIC_VECTOR(ROM_WIDTH -1 downto 0);
 
 impure function init_rom_hex return rom_type is
-  file text_file : text open read_mode is "ROM.txt";
+  file text_file : text open read_mode is "/home/amber/RISCV-CPU/srcs/cpu/new/ROM.txt";
   variable text_line : line;
   variable rom_content : rom_type;
 begin
