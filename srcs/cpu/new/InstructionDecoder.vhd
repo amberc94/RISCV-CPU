@@ -21,7 +21,8 @@ entity InstructionDecoder is
            IMM_SELECT   : out STD_LOGIC_VECTOR(2 downto 0);      -- Immediate Generator Logic
            RS1          : out STD_LOGIC_VECTOR(4 downto 0);      -- Rs1 address
            RS2          : out STD_LOGIC_VECTOR(4 downto 0);     -- Rs 2 address
-           RD           : out STD_LOGIC_VECTOR(4 downto 0)      -- Rd address
+           RD           : out STD_LOGIC_VECTOR(4 downto 0);      -- Rd address
+           EBREAK       : out STD_LOGIC
      );
 end InstructionDecoder;
 
@@ -161,6 +162,10 @@ begin
         Instructions(11 downto 7) when LOAD,
         Instructions(11 downto 7) when LUI,
         Instructions(11 downto 7) when AUIPC,
-        "00000" when others;          
+        "00000" when others;
+    
+    with OPCODE select EBREAK <=
+        '1' when SYSTEM,
+        '0' when others;          
     
 end Behavioral;

@@ -1,6 +1,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use std.env.finish;
 
 entity CPU_tb is
 --  Port ( );
@@ -12,13 +13,15 @@ architecture Behavioral of CPU_tb is
 component CPU is port(
     CLOCK   : in STD_LOGIC;
     RESET   : in STD_LOGIC;
-    DEBUG_OUTPUT : out STD_LOGIC_VECTOR(31 downto 0)
+    DEBUG_OUTPUT : out STD_LOGIC_VECTOR(31 downto 0);
+    EBREAK  : out STD_LOGIC
     );
 end component;
 
 signal CLOCK    : STD_LOGIC := '0';
 signal RESET    : STD_LOGIC := '0';
 signal DEBUG_OUTPUT : STD_LOGIC_VECTOR(31 downto 0);
+signal EBREAK   : STD_LOGIC := '0';
 
 constant ClockFreq : integer := 10e6; --1Mhz
 constant ClockPeriod : time := 1000 ms / ClockFreq;
@@ -28,7 +31,8 @@ begin
     uut: CPU port map (
         CLOCK => CLOCK,
         RESET => RESET,
-        DEBUG_OUTPUT => DEBUG_OUTPUT
+        DEBUG_OUTPUT => DEBUG_OUTPUT,
+        EBREAK => EBREAK
     );
     
     CLOCK <= not CLOCK after ClockPeriod / 2;
@@ -37,11 +41,12 @@ begin
     
     RESET <= '1';
     
-    wait for ClockPeriod * 50;
+   while(EBREAK /= '1') loop
+        wait for ClockPeriod;
+    end loop;
     
+    finish;
     
-    end process;
-
-
+    end process;    
 
 end Behavioral;

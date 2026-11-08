@@ -5,7 +5,8 @@ use work.all;
 
 entity CPU is
   Port ( CLOCK, RESET   : in STD_LOGIC;
-         DEBUG_OUTPUT   : out STD_LOGIC_VECTOR(31 downto 0)
+         DEBUG_OUTPUT   : out STD_LOGIC_VECTOR(31 downto 0);
+         EBREAK         : out STD_LOGIC
         );
 end CPU;
 
@@ -77,7 +78,8 @@ InstructionDecoder: entity work.InstructionDecoder port map(
     IMM_SELECT => IMM_SELECT,
     RS1 => RS1,
     RS2 => RS2,
-    RD => RD
+    RD => RD,
+    EBREAK => EBREAK
     );   
 
 -- in: clock, reset, address, write flag

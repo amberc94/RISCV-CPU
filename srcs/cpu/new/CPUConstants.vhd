@@ -15,6 +15,7 @@ package config_pkg is
     constant JAL    : STD_LOGIC_VECTOR(6 downto 0) := "1101111";
     constant AUIPC  : STD_LOGIC_VECTOR(6 downto 0) := "0010111";
     constant LUI    : STD_LOGIC_VECTOR(6 downto 0) := "0110111";
+    constant SYSTEM : STD_LOGIC_VECTOR(6 downto 0) := "1110011";
     
     -- Immediate Generator
     constant R_TYPE : STD_LOGIC_VECTOR(2 downto 0) := "000";
