@@ -11,3 +11,9 @@ To Run:
 - run scripts/compile-asm.sh on a test risc assembly file and copy the resultant *.txt to ROM.txt in src/cpu/
 - `make`
 - check sim/waveform.ghw in gtkwave and see if DEBUG_OUTPUT matches your expectations
+
+To Do:
+- fully implement CSR and Zicsr
+- implement UART
+- integrate with official riscv testing framework
+- run on Basys 3 FPGA
