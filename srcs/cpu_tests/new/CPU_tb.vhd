@@ -20,13 +20,11 @@ signal CLOCK    : STD_LOGIC := '0';
 signal RESET    : STD_LOGIC := '0';
 signal DEBUG_OUTPUT : STD_LOGIC_VECTOR(31 downto 0);
 
-constant ClockFreq : integer := 10e3; --1khz
-constant ClockPeriod : time := 1000ms / ClockFreq;
+constant ClockFreq : integer := 10e6; --1Mhz
+constant ClockPeriod : time := 1000 ms / ClockFreq;
 
 
 begin
-
-
     uut: CPU port map (
         CLOCK => CLOCK,
         RESET => RESET,
@@ -39,9 +37,8 @@ begin
     
     RESET <= '1';
     
-    wait for ClockPeriod * 10;
+    wait for ClockPeriod * 50;
     
-    RESET <= '0';
     
     end process;
 

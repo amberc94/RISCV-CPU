@@ -52,7 +52,7 @@ begin
   end loop;
 end procedure;
 
-constant ROM_DEPTH : natural := 1024;
+constant ROM_DEPTH : natural := (36864 * 4); -- 128kword
 constant ROM_WIDTH : natural := 32;
 
 type ROM_TYPE is array (0 to ROM_DEPTH -1) of STD_LOGIC_VECTOR(ROM_WIDTH -1 downto 0);
@@ -63,8 +63,12 @@ impure function init_rom_hex return rom_type is
   variable rom_content : rom_type;
 begin
   for i in 0 to rom_depth - 1 loop
-    readline(text_file, text_line);
-    hread(text_line, rom_content(i));
+    if not endfile(text_file) then
+        readline(text_file, text_line);
+        hread(text_line, rom_content(i));
+    else
+        rom_content(i) := x"00000000";
+    end if;
   end loop;
   
   return rom_content;

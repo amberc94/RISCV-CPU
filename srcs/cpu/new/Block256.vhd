@@ -8,7 +8,7 @@ library UNISIM;
 use UNISIM.vcomponents.all;
 library work;
 use work.all;
-use work.config_pkg.all;
+
 
 
 
@@ -36,7 +36,7 @@ WM <=
 WRITE_MASK when WRITE = '1' else
 x"00000000";
 
-OutReg: entity work.Reg_32Bit port map(REG_IN => READ_BUFFER, CLK => REG_CLOCK, WRITE => '1', RESET => '1', REG_OUT => DATA_OUT);
+OutReg: entity work.Reg_32bit port map(REG_IN => READ_BUFFER, CLK => REG_CLOCK, WRITE => '1', RESET => '1', REG_OUT => DATA_OUT);
 
 
 

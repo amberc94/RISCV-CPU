@@ -169,9 +169,9 @@ PC_NextMux: entity work.PC_NextMux port map(
 RAM: entity work.RAM port map(
     CLK => CLOCK,
     WRITE => MEM_WRITE,
-    ADDRESS => MEM_ADDRESS,
+    ADDRESS => WB_OUT,
     WIDTH => WIDTH,
-    DATA_IN => WB_OUT,
+    DATA_IN => REG_B_OUT,
     DATA_OUT => MEM_OUT
     );
 
