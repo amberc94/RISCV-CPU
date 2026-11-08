@@ -20,6 +20,7 @@ elaborate:
 
 run:
 	cd $(SIM_DIR) && ghdl -r --std=08 -frelaxed-rules -P../$(SRC_DIR)/xilinx-vivado $(TB_ENTITY) --wave=waveform.ghw
+	cd $(SIM_DIR) && gtkwave waveform.ghw &
 
 clean:
 	rm -rf $(SIM_DIR)
