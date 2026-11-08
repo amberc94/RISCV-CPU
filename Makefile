@@ -12,14 +12,14 @@ all: clean analyze elaborate run
 
 analyze:
 	@mkdir -p $(SIM_DIR)
-	cd $(SIM_DIR) && ghdl -i ../$(SRC_DIR)/*.vhd && ghdl -m -P../$(SRC_DIR)/xilinx-vivado CPU 
-	cd $(SIM_DIR) && ghdl -a -P../$(SRC_DIR)/xilinx-vivado ../$(TB_DIR)/CPU_tb.vhd
+	cd $(SIM_DIR) && ghdl -i --std=08 -frelaxed-rules -P../$(SRC_DIR)/xilinx-vivado ../$(SRC_DIR)/*.vhd && ghdl -m --std=08 -frelaxed-rules -P../$(SRC_DIR)/xilinx-vivado CPU
+	cd $(SIM_DIR) && ghdl -a --std=08 -frelaxed-rules -P../$(SRC_DIR)/xilinx-vivado ../$(TB_DIR)/CPU_tb.vhd
 
 elaborate:
-	cd $(SIM_DIR) && ghdl -e -P../$(SRC_DIR)/xilinx-vivado $(TB_ENTITY)
+	cd $(SIM_DIR) && ghdl -e --std=08 -frelaxed-rules -P../$(SRC_DIR)/xilinx-vivado $(TB_ENTITY)
 
 run:
-	cd $(SIM_DIR) && ghdl -r -P../$(SRC_DIR)/xilinx-vivado $(TB_ENTITY) --wave=waveform.ghw
+	cd $(SIM_DIR) && ghdl -r --std=08 -frelaxed-rules -P../$(SRC_DIR)/xilinx-vivado $(TB_ENTITY) --wave=waveform.ghw
 
 clean:
 	rm -rf $(SIM_DIR)
