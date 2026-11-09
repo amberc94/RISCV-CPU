@@ -77,7 +77,7 @@ begin
         '0' when STORE,
         '1' when JAL,
         '1' when AUIPC,
-        '0' when LUI,
+        '1' when LUI,
         '0' when others;
         
      with OPCODE select WB_SELECT <=
