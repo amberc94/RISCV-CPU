@@ -51,9 +51,9 @@ case ALU_CONTROL is
             ALU_RESULT <= x"00000000";
         end if;
      when ALU_SLL =>
-        ALU_RESULT <= std_logic_vector(shift_left(signed(A),to_integer(signed(B))));
+        ALU_RESULT <= std_logic_vector(shift_left(unsigned(A),to_integer(signed(B))));
      when ALU_SRL =>
-        ALU_RESULT <= std_logic_vector(shift_right(signed(A),to_integer(signed(B))));
+        ALU_RESULT <= std_logic_vector(shift_right(unsigned(A),to_integer(signed(B))));
      when ALU_SRA =>
          B_INT:= to_integer(signed(B));
          SHIFT_BUFFER <= A;
