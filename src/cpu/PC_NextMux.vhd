@@ -31,7 +31,7 @@ begin
                PC_INC when (JB_SELECT = PC_BRANCH and B_LOGIC = '0') else
                PC_IMM when (JB_SELECT = PC_BRANCH and B_LOGIC = '1') else
                PC_IMM when JB_SELECT = PC_JAL else
-               PC_ALU_OUT when JB_SELECT = PC_JALR else
+               (PC_ALU_OUT and x"FFFFFFFD") when JB_SELECT = PC_JALR else -- jalr adds imm + rs1 (ALU_OUT) then sets the LSB to 0
                PC_INC;
     PC_4_OUT <= PC_INC;
                
