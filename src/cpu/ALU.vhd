@@ -24,7 +24,7 @@ begin
 
 process(A,B,SIGN,ALU_CONTROL)
 
-variable B_INT : integer := to_integer(unsigned(B));
+variable B_INT : integer:= 0;
 
 begin
 
@@ -55,6 +55,7 @@ case ALU_CONTROL is
      when ALU_SRL =>
         ALU_RESULT <= std_logic_vector(shift_right(signed(A),to_integer(signed(B))));
      when ALU_SRA =>
+         B_INT:= to_integer(signed(B));
          SHIFT_BUFFER <= A;
          for i in 0 to 31 loop
             if i <= B_INT then

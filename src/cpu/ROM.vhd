@@ -79,6 +79,6 @@ signal ROM_HEX : ROM_TYPE := init_rom_hex;
 
 begin
 
-    DATA_OUT <= ROM_HEX(to_integer(unsigned(ADDRESS)));   
+    DATA_OUT <= ROM_HEX(to_integer(unsigned(ADDRESS)/4));   
 
 end Behavioral;

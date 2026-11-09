@@ -23,9 +23,9 @@ signal PC_IMM : STD_LOGIC_VECTOR(31 downto 0);
 signal PC_ALU_OUT : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
-    PC_INC <= std_logic_vector(signed(PC) + 1);
-    PC_IMM <= std_logic_vector(signed(PC) + (signed(IMM)/4));
-    PC_ALU_OUT <= std_logic_vector(signed(ALU_OUT)/4);
+    PC_INC <= std_logic_vector(signed(PC) + 4);
+    PC_IMM <= std_logic_vector(signed(PC) + (signed(IMM)));
+    PC_ALU_OUT <= std_logic_vector(signed(ALU_OUT));
     
     PC_NEXT <= PC_INC when JB_SELECT = PC_4 else
                PC_INC when (JB_SELECT = PC_BRANCH and B_LOGIC = '0') else
