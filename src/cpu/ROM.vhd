@@ -2,6 +2,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use std.textio.all;
+use ieee.std_logic_textio.all;
 use work.all;
 
 entity ROM is
@@ -52,7 +53,7 @@ begin
   end loop;
 end procedure;
 
-constant ROM_DEPTH : natural := (36864 * 4); -- 128kword
+constant ROM_DEPTH : natural := 36864; -- 128kword
 constant ROM_WIDTH : natural := 32;
 
 type ROM_TYPE is array (0 to ROM_DEPTH -1) of STD_LOGIC_VECTOR(ROM_WIDTH -1 downto 0);

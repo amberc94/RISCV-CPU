@@ -20,16 +20,18 @@ end PC_NextMux;
 architecture Behavioral of PC_NextMux is
 signal PC_INC : STD_LOGIC_VECTOR(31 downto 0);
 signal PC_IMM : STD_LOGIC_VECTOR(31 downto 0);
+signal PC_ALU_OUT : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
     PC_INC <= std_logic_vector(signed(PC) + 1);
     PC_IMM <= std_logic_vector(signed(PC) + (signed(IMM)/4));
+    PC_ALU_OUT <= std_logic_vector(signed(ALU_OUT)/4);
     
     PC_NEXT <= PC_INC when JB_SELECT = PC_4 else
                PC_INC when (JB_SELECT = PC_BRANCH and B_LOGIC = '0') else
                PC_IMM when (JB_SELECT = PC_BRANCH and B_LOGIC = '1') else
                PC_IMM when JB_SELECT = PC_JAL else
-               ALU_OUT when JB_SELECT = PC_JALR else
+               PC_ALU_OUT when JB_SELECT = PC_JALR else
                PC_INC;
     PC_4_OUT <= PC_INC;
                

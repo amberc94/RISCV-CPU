@@ -38,7 +38,8 @@ begin
     CLOCK <= not CLOCK after ClockPeriod / 2;
     
     stim_proc:process begin
-    
+    RESET <= '0';
+    wait for ClockPeriod;
     RESET <= '1';
     
    while(EBREAK /= '1') loop
