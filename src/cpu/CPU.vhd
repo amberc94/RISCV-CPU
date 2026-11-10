@@ -28,6 +28,7 @@ signal RD           : STD_LOGIC_VECTOR(4 downto 0);
 
 signal REG_A_OUT    : STD_LOGIC_VECTOR(31 downto 0);
 signal REG_B_OUT    : STD_LOGIC_VECTOR(31 downto 0);
+signal DUMP_REG     : STD_LOGIC_VECTOR(31 downto 0);
 
 signal Immediate    : STD_LOGIC_VECTOR(31 downto 0);
 
@@ -95,7 +96,8 @@ Reg_File: entity work.Reg_File port map(
     RS2_OUT => REG_B_OUT,
     RS2_ADDR => RS2,
     WRITE_ADDR => RD,
-    DATA_IN => WB_OUT   
+    DATA_IN => WB_OUT,
+    DUMP_REG => DUMP_REG   
     );
 
 
@@ -213,6 +215,6 @@ BranchLogic: entity work.BranchLogic port map(
     WB_OUT => WB_OUT
  );
  
- DEBUG_OUTPUT <= WB_OUT;
+ DEBUG_OUTPUT <= DUMP_REG;
  
 end Behavioral;

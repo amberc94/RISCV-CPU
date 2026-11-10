@@ -2,6 +2,8 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use std.env.finish;
+use std.textio.all;
+use IEEE.std_logic_textio.all;
 
 entity CPU_tb is
 --  Port ( );
@@ -40,7 +42,12 @@ begin
     
     CLOCK <= not CLOCK after ClockPeriod / 2;
     
-    stim_proc:process begin
+    stim_proc:process
+    
+    file test_out : text open append_mode is ("test.txt");
+    variable lineout : line;
+    
+    begin
 
     RESET <= '1';
     PC_RESET <= '1';
@@ -48,6 +55,9 @@ begin
    while(EBREAK /= '1') loop
         wait for ClockPeriod;
     end loop;
+        
+    write(lineout, DEBUG_OUTPUT);
+    writeline(test_out, lineout);
     
     finish;
     

@@ -15,7 +15,8 @@ entity Reg_File is
          WRITE      : in STD_LOGIC;
          WRITE_ADDR : in STD_LOGIC_VECTOR(4 downto 0);
          CLK        : in STD_LOGIC;
-         RESET      : in STD_LOGIC
+         RESET      : in STD_LOGIC;
+         DUMP_REG   : out STD_LOGIC_VECTOR(31 downto 0)          --temp way to dump our x1 reg values in the testbench for testing verification
        );
 end Reg_File;
 
@@ -65,6 +66,7 @@ X31: entity work.Reg_32bit port map(REG_IN => IN_BUFFER, REG_OUT => OUT_BUFFER(3
 RS1_OUT <= OUT_BUFFER(to_integer(unsigned(RS1_ADDR)));
 RS2_OUT <= OUT_BUFFER(to_integer(unsigned(RS2_ADDR)));
 IN_BUFFER <= DATA_IN;
+DUMP_REG <= OUT_BUFFER(1);
 process(WRITE, CLK, WRITE_ADDR) begin
     if(WRITE = '1') then
         WRITE_FLAG <= x"00000000";
@@ -74,33 +76,6 @@ process(WRITE, CLK, WRITE_ADDR) begin
     end if;
 end process;
 
--- this logic will need to be transferred over to the data memory 
--- it's easier to just read the full 32 bits and slice it up there
 
---process(SIZE, RS2_ADDR) begin
---    WORK_BUFFER <= OUT_BUFFER(to_integer(unsigned(RS2_ADDR)));
---    SIGN_BIT <= WORK_BUFFER(31);
---    case SIZE is
---        when WORD =>
---            -- do nothing
---        when BYTE =>
---            for i in 31 downto 7 loop
---                WORK_BUFFER(i) <= '0';
---            end loop;
---        when BYTEU =>
---            for i in 31 downto 7 loop
---                WORK_BUFFER(i) <= SIGN_BIT;
---            end loop;
---        when HALF =>
---            for i in 31 downto 15 loop
---                WORK_BUFFER(i) <= '0';
---            end loop;
---        when HALFU =>
---            for i in 31 downto 15 loop
---                WORK_BUFFER(i) <= SIGN_BIT;
---            end loop;
---        when others =>
---                -- do nothing
---     end case;
---end process;
+
 end Behavioral;
