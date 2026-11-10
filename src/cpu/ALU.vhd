@@ -50,20 +50,13 @@ case ALU_CONTROL is
         else
             ALU_RESULT <= x"00000000";
         end if;
+     -- we only ever care about shifting by up to 32, so just pull the bottom 5 bits (0 - 63 possible shifts)
      when ALU_SLL =>
-        ALU_RESULT <= std_logic_vector(shift_left(signed(A),to_integer(unsigned(B))));
+        ALU_RESULT <= std_logic_vector(shift_left(unsigned(A),to_integer(unsigned(B(4 downto 0)))));
      when ALU_SRL =>
-        ALU_RESULT <= std_logic_vector(shift_right(unsigned(A),to_integer(unsigned(B))));
+        ALU_RESULT <= std_logic_vector(shift_right(unsigned(A),to_integer(unsigned(B(4 downto 0)))));
      when ALU_SRA =>
-         B_INT:= to_integer(signed(B));
-         SHIFT_BUFFER <= A;
-         for i in 0 to 31 loop
-            if i <= B_INT then
-                SHIFT_BUFFER <= std_logic_vector(shift_right(signed(SHIFT_BUFFER),1));
-                SHIFT_BUFFER(31) <= B(31);
-            end if;
-         end loop;
-         ALU_RESULT <= SHIFT_BUFFER;
+         ALU_RESULT <= std_logic_vector(shift_right(signed(A), to_integer(unsigned(B(4 downto 0)))));
      when others =>
         ALU_RESULT <= x"00000000";
  end case;
