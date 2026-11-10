@@ -4,9 +4,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 use work.all;
 
 entity CPU is
-  Port ( CLOCK, RESET   : in STD_LOGIC;
-         DEBUG_OUTPUT   : out STD_LOGIC_VECTOR(31 downto 0);
-         EBREAK         : out STD_LOGIC
+  Port ( CLOCK, RESET, PC_RESET   : in STD_LOGIC;
+         DEBUG_OUTPUT             : out STD_LOGIC_VECTOR(31 downto 0);
+         EBREAK                   : out STD_LOGIC
         );
 end CPU;
 
@@ -103,7 +103,7 @@ Reg_File: entity work.Reg_File port map(
 -- out: data out -> RAM -> Instruction Register -> Instruction Decoder
 PC: entity work.Reg_32bit port map(
     CLK => CLOCK,
-    RESET => RESET,
+    RESET => PC_RESET,
     WRITE => '1',
     REG_IN => PC_NEXT,
     REG_OUT => PC_OUT
