@@ -56,7 +56,7 @@ begin
         wait for ClockPeriod;
     end loop;
         
-    write(lineout, DEBUG_OUTPUT);
+    hwrite(lineout, DEBUG_OUTPUT);
     writeline(test_out, lineout);
     
     finish;
