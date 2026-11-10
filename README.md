@@ -9,10 +9,11 @@ Requirements:
 - gtkwave (tested with 3.3121)
 
 To Run:
-- compile xilinx vendor libraries using the ghdl vendor scrips and place them in lib/ (only needs to be done once)
+-~~ compile xilinx vendor libraries using the ghdl vendor scrips and place them in lib/ (only needs to be done once)~~ no longer required
 - run scripts/compile-asm.sh on a test risc assembly file and copy the resultant *.txt to ROM.txt in src/cpu/
 - `make`
 - check sim/waveform.ghw in gtkwave and see if DEBUG_OUTPUT matches your expectations
+- to run tests, run `CONFIG_FILES=/path/to/test_config.yaml make` in your clone of riscv-arch-tests, then copy your elfs from the work folder to src/tests. run `convert-tests.sh` to convert elfs to hexdump and `run-tests.sh' to run them (with the paths in each script updated). test output will be in sim/test.txt (FFFFFFFF is successful, 11111111 or nothing is fail) 
 
 To Do:
 - fully implement CSR and Zicsr
