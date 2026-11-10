@@ -20,7 +20,7 @@ entity RAM is
     Port (
         CLK     : in STD_LOGIC;
         WRITE   : in STD_LOGIC;
-        ADDRESS : in STD_LOGIC_VECTOR(31 downto 0);
+        BYTE_ADD : in STD_LOGIC_VECTOR(31 downto 0);
         WIDTH    : in STD_LOGIC_VECTOR(2 downto 0);
         DATA_IN : in STD_LOGIC_VECTOR(31 downto 0);
         DATA_OUT: out STD_LOGIC_VECTOR(31 downto 0)
@@ -37,8 +37,11 @@ type t_RAM_BUFFER is array (0 to 15) of std_logic_vector(31 downto 0);
 signal OUT_BUFFER   : t_RAM_BUFFER;
 signal WRITE_BUFFER : STD_LOGIC_VECTOR(31 downto 0);
 signal WRITE_MASK   : STD_LOGIC_VECTOR(31 downto 0) := x"00000000";
-
+signal ADDRESS     : STD_LOGIC_VECTOR(31 downto 0);
 begin
+
+-- addresses get handed to use as bytes but we use word addressing so divide by 4
+ADDRESS <= std_logic_vector(shift_right(unsigned(BYTE_ADD), 2));
 
 BLOCK256_ADD <= ADDRESS(5 downto 0);
 BLOCK4KB_ADD <= ADDRESS(9 downto 6);
