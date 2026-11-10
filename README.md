@@ -1,4 +1,6 @@
-A primitive single-cycle RISCV CPU core in VHDL. Implements exclusively the rv32i ISA. No CSR, no I/O, no UART, ebreak just halts the CPU testbench.
+A primitive single-cycle RISCV CPU core in VHDL. Implements exclusively the rv32i ISA. No CSR, no I/O, no UART, ebreak just halts the CPU testbench. 
+
+No AI was used in this project.
 
 Requirements:
 - ghdl (tested with 7.0.0-dev)
@@ -15,5 +17,5 @@ To Run:
 To Do:
 - fully implement CSR and Zicsr
 - implement UART
-- integrate with official riscv testing framework
+- integrate with official riscv testing framework (21 of 39 passed as of Nov 10 2026)
 - run on Basys 3 FPGA
