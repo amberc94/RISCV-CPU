@@ -11,7 +11,7 @@ TB_ENTITY = CPU_tb
 
 .PHONY: all analyze elaborate run clean
 
-all: clean analyze elaborate run
+all: analyze elaborate run
 
 analyze:
 	@mkdir -p $(SIM_DIR)
@@ -22,7 +22,7 @@ elaborate:
 	cd $(SIM_DIR) && ghdl -e --std=08 -frelaxed-rules -P../$(LIB_DIR) $(TB_ENTITY)
 
 run:
-	cd $(SIM_DIR) && ghdl -r --std=08 -frelaxed-rules -P../$(LIB_DIR) $(TB_ENTITY) --wave=waveform.ghw --ieee-asserts=disable-at-0
+	cd $(SIM_DIR) && ghdl -r --std=08 -frelaxed-rules -P../$(LIB_DIR) $(TB_ENTITY) --wave=waveform.ghw --ieee-asserts=disable-at-0 --stop-time=10ms
 #	cd $(SIM_DIR) && gtkwave waveform.ghw &
 
 clean:
