@@ -21,7 +21,6 @@ entity RAM is
     Port (
         CLK     : in STD_LOGIC;
         WRITE   : in STD_LOGIC;
-        READ_FLAG : in STD_LOGIC;
         BYTE_ADD : in STD_LOGIC_VECTOR(31 downto 0);
         WIDTH    : in STD_LOGIC_VECTOR(2 downto 0);
         DATA_IN : in STD_LOGIC_VECTOR(31 downto 0);
@@ -91,7 +90,7 @@ begin
 end function;
 
 signal SRAM : RAM_TYPE := init_ram_hex;
-signal ADDRESS : STD_LOGIC_VECTOR(31 downto 0);
+signal ADDRESS : STD_LOGIC_VECTOR(15 downto 0);
 signal WRITE_MASK : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
@@ -101,16 +100,8 @@ WRITE_MASK <=
     x"000000FF" when WIDTH = "000" or WIDTH = "100" else -- byte
     x"FFFFFFFF";
 
-
-ADDRESS <=
-    "00" & BYTE_ADD(31 downto 2) when (READ_FLAG = '1' or WRITE = '1') else
-    x"00000000";
-
-process (BYTE_ADD) is begin
-    if(unsigned(ADDRESS) > SRAM'length) then
-        ADDRESS <= x"00000000";
-    end if;
-end process;
+-- functions as shift right by 2 and take bottom 16
+ADDRESS <= BYTE_ADD(17 downto 2);
 DATA_OUT <= SRAM(to_integer(unsigned(ADDRESS)));
 
 process(CLK, WRITE, WIDTH) is
