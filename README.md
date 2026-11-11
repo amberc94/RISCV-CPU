@@ -9,7 +9,7 @@ Requirements:
 - gtkwave (tested with 3.3121)
 
 To Run:
-~~compile xilinx vendor libraries using the ghdl vendor scrips and place them in lib/ (only needs to be done once)~~ no longer required
+-~~compile xilinx vendor libraries using the ghdl vendor scrips and place them in lib/ (only needs to be done once)~~ no longer required
 - run scripts/compile-asm.sh on a test risc assembly file and copy the resultant *.txt to ROM.txt in src/cpu/
 - `make`
 - check sim/waveform.ghw in gtkwave and see if DEBUG_OUTPUT matches your expectations
@@ -18,5 +18,5 @@ To Run:
 To Do:
 - fully implement CSR and Zicsr
 - implement UART
-- integrate with official riscv testing framework (21 of 39 passed as of Nov 10 2026)
+- integrate with official riscv testing framework (22 of 39 passed as of Nov 11 2026)
 - run on Basys 3 FPGA
