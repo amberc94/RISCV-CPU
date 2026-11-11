@@ -25,13 +25,14 @@ signal PC_ALU_OUT : STD_LOGIC_VECTOR(31 downto 0);
 begin
     PC_INC <= std_logic_vector(signed(PC) + 4);
     PC_IMM <= std_logic_vector(signed(PC) + (signed(IMM)));
-    PC_ALU_OUT <= std_logic_vector(signed(ALU_OUT));
+    PC_ALU_OUT(31 downto 1) <= ALU_OUT(31 downto 1);
+    PC_ALU_OUT(0) <= '0';
     
     PC_NEXT <= PC_INC when JB_SELECT = PC_4 else
                PC_INC when (JB_SELECT = PC_BRANCH and B_LOGIC = '0') else
                PC_IMM when (JB_SELECT = PC_BRANCH and B_LOGIC = '1') else
                PC_IMM when JB_SELECT = PC_JAL else
-               (PC_ALU_OUT and x"FFFFFFFD") when JB_SELECT = PC_JALR else -- jalr adds imm + rs1 (ALU_OUT) then sets the LSB to 0
+               PC_ALU_OUT when JB_SELECT = PC_JALR else -- jalr adds imm + rs1 (ALU_OUT) then sets the LSB to 0
                PC_INC;
     PC_4_OUT <= PC_INC;
                
