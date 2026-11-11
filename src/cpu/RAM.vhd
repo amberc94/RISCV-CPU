@@ -21,6 +21,7 @@ entity RAM is
     Port (
         CLK     : in STD_LOGIC;
         WRITE   : in STD_LOGIC;
+        READ_FLAG : in STD_LOGIC;
         BYTE_ADD : in STD_LOGIC_VECTOR(31 downto 0);
         WIDTH    : in STD_LOGIC_VECTOR(2 downto 0);
         DATA_IN : in STD_LOGIC_VECTOR(31 downto 0);
@@ -67,8 +68,8 @@ begin
   end loop;
 end procedure;
 
-constant RAM_DEPTH : natural := 8192 * 8; -- 256kb (64k words)
-constant RAM_WIDTH : natural := 32;
+constant RAM_DEPTH : natural := 400 * 1024; -- 256kb (64k words)
+constant RAM_WIDTH : natural := 8;
 
 type RAM_TYPE is array (0 to RAM_DEPTH -1) of STD_LOGIC_VECTOR(RAM_WIDTH -1 downto 0);
 
@@ -82,7 +83,7 @@ begin
         readline(text_file, text_line);
         hread(text_line, ram_content(i));
     else
-        ram_content(i) := x"00000000";
+        ram_content(i) := x"00";
     end if;
   end loop;
   
@@ -90,7 +91,7 @@ begin
 end function;
 
 signal SRAM : RAM_TYPE := init_ram_hex;
-signal ADDRESS : STD_LOGIC_VECTOR(15 downto 0);
+--signal ADDRESS : STD_LOGIC_VECTOR(31 downto 0);
 signal WRITE_MASK : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
@@ -100,17 +101,42 @@ WRITE_MASK <=
     x"000000FF" when WIDTH = "000" or WIDTH = "100" else -- byte
     x"FFFFFFFF";
 
--- functions as shift right by 2 and take bottom 16
-ADDRESS <= BYTE_ADD(17 downto 2);
-DATA_OUT <= SRAM(to_integer(unsigned(ADDRESS)));
+
+process (BYTE_ADD) is 
+   variable ADDRESS : integer;
+    begin
+    ADDRESS := to_integer(unsigned(BYTE_ADD(30 downto 0)));
+    if(ADDRESS > SRAM'length or ADDRESS < 0) then
+        ADDRESS := 0;
+    end if;
+    DATA_OUT(31 downto 24) <= SRAM(ADDRESS);
+    DATA_OUT(23 downto 16) <= SRAM(ADDRESS+1);
+    DATA_OUT(15 downto 8) <= SRAM(ADDRESS+2);
+    DATA_OUT(7 downto 0) <= SRAM(ADDRESS+3);
+    end process;
+
+
 
 process(CLK, WRITE, WIDTH) is
-    variable work_buffer : STD_LOGIC_VECTOR(31 downto 0) := SRAM(to_integer(unsigned(ADDRESS)));
+    variable work_buffer : STD_LOGIC_VECTOR(31 downto 0);
+    variable ADDRESS : integer;
     begin
+    ADDRESS := to_integer(unsigned(BYTE_ADD(30 downto 0)));
+    if(ADDRESS > SRAM'length or ADDRESS < 0) then
+        ADDRESS := 0;
+    end if;
+    work_buffer(31 downto 24) := SRAM(ADDRESS);
+    work_buffer(23 downto 16) := SRAM(ADDRESS+1);
+    work_buffer(15 downto 8) := SRAM(ADDRESS+2);
+    work_buffer(7 downto 0) := SRAM(ADDRESS+3);
+
     if (WRITE = '1' and rising_edge(CLK)) then
         work_buffer := work_buffer and not WRITE_MASK;
         work_buffer := work_buffer or (DATA_IN and WRITE_MASK);
-        SRAM(to_integer(unsigned(ADDRESS))) <= work_buffer;
+        SRAM(ADDRESS) <= work_buffer(31 downto 24);
+        SRAM(ADDRESS+1) <= work_buffer(23 downto 16);
+        SRAM(ADDRESS+2) <= work_buffer(15 downto 8);
+        SRAM(ADDRESS+3) <= work_buffer(7 downto 0);
     end if;
 end process;
 

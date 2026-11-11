@@ -22,7 +22,7 @@ elaborate:
 	cd $(SIM_DIR) && ghdl -e --std=08 -frelaxed-rules -P../$(LIB_DIR) $(TB_ENTITY)
 
 run:
-	cd $(SIM_DIR) && ghdl -r --std=08 -frelaxed-rules -P../$(LIB_DIR) $(TB_ENTITY) --wave=waveform.ghw --ieee-asserts=disable-at-0 --stop-time=10ms
+	cd $(SIM_DIR) && ghdl -r --std=08 -frelaxed-rules -P../$(LIB_DIR) $(TB_ENTITY) --wave=waveform.ghw --ieee-asserts=disable-at-0 --stop-time=1ms
 #	cd $(SIM_DIR) && gtkwave waveform.ghw &
 
 clean:

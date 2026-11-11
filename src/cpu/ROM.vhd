@@ -53,8 +53,8 @@ begin
   end loop;
 end procedure;
 
-constant ROM_DEPTH : natural := 36864; -- 128kword
-constant ROM_WIDTH : natural := 32;
+constant ROM_DEPTH : natural := 400 * 1024; -- 128kword
+constant ROM_WIDTH : natural := 8;
 
 type ROM_TYPE is array (0 to ROM_DEPTH -1) of STD_LOGIC_VECTOR(ROM_WIDTH -1 downto 0);
 
@@ -68,7 +68,7 @@ begin
         readline(text_file, text_line);
         hread(text_line, rom_content(i));
     else
-        rom_content(i) := x"00000000";
+        rom_content(i) := x"00";
     end if;
   end loop;
   
@@ -79,6 +79,9 @@ signal ROM_HEX : ROM_TYPE := init_rom_hex;
 
 begin
 
-    DATA_OUT <= ROM_HEX(to_integer(unsigned(ADDRESS)/4));   
+    DATA_OUT(31 downto 24) <= ROM_HEX(to_integer(unsigned(ADDRESS)));
+    DATA_OUT(23 downto 16) <= ROM_HEX(to_integer(unsigned(ADDRESS)+1));
+    DATA_OUT(15 downto 8) <= ROM_HEX(to_integer(unsigned(ADDRESS)+2));
+    DATA_OUT(7 downto 0) <= ROM_HEX(to_integer(unsigned(ADDRESS)+3));   
 
 end Behavioral;
