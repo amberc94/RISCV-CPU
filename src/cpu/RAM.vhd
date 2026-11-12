@@ -111,12 +111,12 @@ process (BYTE_ADD, WIDTH) is
         ADDRESS := 0;
     end if;
     case WIDTH is
-        when "001" => READ_BUFFER (15 downto 8) := SRAM(ADDRESS);
-                      READ_BUFFER (7 downto 0) := SRAM(ADDRESS+1);
+        when "001" => READ_BUFFER (15 downto 8) := SRAM(ADDRESS+1);
+                      READ_BUFFER (7 downto 0) := SRAM(ADDRESS);
                       READ_BUFFER (31 downto 16) := (others => READ_BUFFER(15));
         
-        when "101" => READ_BUFFER (15 downto 8) := SRAM(ADDRESS);
-                      READ_BUFFER (7 downto 0) := SRAM(ADDRESS+1);
+        when "101" => READ_BUFFER (15 downto 8) := SRAM(ADDRESS+1);
+                      READ_BUFFER (7 downto 0) := SRAM(ADDRESS);
                       READ_BUFFER (31 downto 16) := (others => '0');
                       
         when "000" => READ_BUFFER (7 downto 0) := SRAM(ADDRESS);
@@ -125,10 +125,10 @@ process (BYTE_ADD, WIDTH) is
         when "100" => READ_BUFFER (7 downto 0) := SRAM(ADDRESS);
                       READ_BUFFER (31 downto 8) := (others => '0');
         
-        when others => READ_BUFFER(31 downto 24) := SRAM(ADDRESS);
-                       READ_BUFFER(23 downto 16) := SRAM(ADDRESS+1);
-                       READ_BUFFER(15 downto 8) := SRAM(ADDRESS+2);
-                       READ_BUFFER(7 downto 0) := SRAM(ADDRESS+3);
+        when others => READ_BUFFER(31 downto 24) := SRAM(ADDRESS+3);
+                       READ_BUFFER(23 downto 16) := SRAM(ADDRESS+2);
+                       READ_BUFFER(15 downto 8) := SRAM(ADDRESS+1);
+                       READ_BUFFER(7 downto 0) := SRAM(ADDRESS);
     end case;
     DATA_OUT <= READ_BUFFER;
 end process;
@@ -145,12 +145,12 @@ process(CLK, WRITE, WRITE_MASK) is
     if (WRITE = '1' and rising_edge(CLK)) then
         case WRITE_MASK is
             when x"000000FF" => SRAM(ADDRESS) <= DATA_IN(7 downto 0);
-            when x"0000FFFF" => SRAM(ADDRESS) <= DATA_IN(15 downto 8); 
-                                SRAM(ADDRESS+1) <= DATA_IN(7 downto 0);
-            when x"FFFFFFFF" => SRAM(ADDRESS) <= DATA_IN(31 downto 24); 
-                                SRAM(ADDRESS+1) <= DATA_IN(23 downto 16); 
-                                SRAM(ADDRESS+2) <= DATA_IN(15 downto 8); 
-                                SRAM(ADDRESS+3) <= DATA_IN(7 downto 0);
+            when x"0000FFFF" => SRAM(ADDRESS) <= DATA_IN(7 downto 0); 
+                                SRAM(ADDRESS+1) <= DATA_IN(15 downto 8);
+            when x"FFFFFFFF" => SRAM(ADDRESS) <= DATA_IN(7 downto 0); 
+                                SRAM(ADDRESS+1) <= DATA_IN(15 downto 8); 
+                                SRAM(ADDRESS+2) <= DATA_IN(23 downto 16); 
+                                SRAM(ADDRESS+3) <= DATA_IN(31 downto 24);
              when others => --do nothing
         end case;
     end if;

@@ -79,9 +79,9 @@ signal ROM_HEX : ROM_TYPE := init_rom_hex;
 
 begin
 
-    DATA_OUT(31 downto 24) <= ROM_HEX(to_integer(unsigned(ADDRESS)));
-    DATA_OUT(23 downto 16) <= ROM_HEX(to_integer(unsigned(ADDRESS)+1));
-    DATA_OUT(15 downto 8) <= ROM_HEX(to_integer(unsigned(ADDRESS)+2));
-    DATA_OUT(7 downto 0) <= ROM_HEX(to_integer(unsigned(ADDRESS)+3));   
+    DATA_OUT(31 downto 24) <= ROM_HEX(to_integer(unsigned(ADDRESS)+3));
+    DATA_OUT(23 downto 16) <= ROM_HEX(to_integer(unsigned(ADDRESS)+2));
+    DATA_OUT(15 downto 8) <= ROM_HEX(to_integer(unsigned(ADDRESS)+1));
+    DATA_OUT(7 downto 0) <= ROM_HEX(to_integer(unsigned(ADDRESS)));   
 
 end Behavioral;
