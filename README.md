@@ -18,5 +18,5 @@ To Run:
 To Do:
 - fully implement CSR and Zicsr
 - implement UART
-- integrate with official riscv testing framework (22 of 39 passed as of Nov 11 2026)
+- integrate with official riscv testing framework (31 of 39 passed as of Nov 12 2026)
 - run on Basys 3 FPGA
