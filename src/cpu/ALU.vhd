@@ -27,8 +27,7 @@ process(A,B,SIGN,ALU_CONTROL)
 variable B_INT : integer:= 0;
 variable SHIFT_BUFFER : STD_LOGIC_VECTOR(31 downto 0);
 begin
-
-case ALU_CONTROL is
+case ALU_CONTROL is 
     when ALU_ADD =>
         ALU_RESULT <= std_logic_vector(signed(A) + signed(B));
     when ALU_SUB =>

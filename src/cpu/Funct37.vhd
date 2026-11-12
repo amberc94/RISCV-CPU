@@ -30,7 +30,7 @@ begin
     -- this should really be reworked to just have a sign/unsign flag    
     ALU_CONTROL <= 
         ALU_ADD when ALU_TYPE = ADD else -- most functions
-        ALU_SUB when (ALU_TYPE = BRANCH_F and not(FUNC3 = "110" or FUNC3 = "111"))  else -- all branch options are simply going to rs1 - rs2 and check the ALU zr/ng flags (except unsigned checks)
+        ALU_SUB when (ALU_TYPE = BRANCH_F)  else -- all branch options are simply going to rs1 - rs2 and check the ALU zr/ng flags
         ALU_ADD when(FUNC3 = "000" and ((ALU_TYPE = F3) or (ALU_TYPE = F7 and FUNC7(5) = '0'))) else -- ADD
         ALU_SUB when(FUNC3 = "000" and ALU_TYPE = F7 and FUNC7(5) = '1') else                        -- SUB
         ALU_XOR when(FUNC3 = "100" and ((ALU_TYPE = F3) or (ALU_TYPE = F7)))else                     -- XOR
@@ -46,7 +46,7 @@ begin
         
     SIGN <=
         '0' when(FUNC3 = "011" and (ALU_TYPE = F3 or ALU_TYPE = F7)) else                        -- SLT(I)U Set Less Than Unsigned
-        '0' when(ALU_TYPE = BRANCH and (FUNC3 = "110" or FUNC3 = "111")) else                    -- SUBU
+        '0' when(ALU_TYPE = BRANCH_F and (FUNC3 = "110" or FUNC3 = "111")) else                    -- SUBU
         '1';
     
 
