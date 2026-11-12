@@ -212,7 +212,7 @@ BranchLogic: entity work.BranchLogic port map(
  -- out WB_out
  WBMux: entity work.WBMux port map(
     ALU_RESULT => ALU_OUT,
-    MEM_READ => SLICE_OUT,
+    MEM_READ => MEM_OUT,
     PC_4 => PC_4,
     IMM => Immediate,
     WB_SELECT => WB_SELECT,

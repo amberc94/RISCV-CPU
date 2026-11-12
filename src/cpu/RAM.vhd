@@ -102,41 +102,57 @@ WRITE_MASK <=
     x"FFFFFFFF";
 
 
-process (BYTE_ADD) is 
+process (BYTE_ADD, WIDTH) is 
    variable ADDRESS : integer;
+   variable READ_BUFFER : STD_LOGIC_VECTOR(31 downto 0);
     begin
     ADDRESS := to_integer(unsigned(BYTE_ADD(30 downto 0)));
-    if(ADDRESS > SRAM'length or ADDRESS < 0) then
+    if(ADDRESS > SRAM'length -1) then
         ADDRESS := 0;
     end if;
-    DATA_OUT(31 downto 24) <= SRAM(ADDRESS);
-    DATA_OUT(23 downto 16) <= SRAM(ADDRESS+1);
-    DATA_OUT(15 downto 8) <= SRAM(ADDRESS+2);
-    DATA_OUT(7 downto 0) <= SRAM(ADDRESS+3);
-    end process;
+    case WIDTH is
+        when "001" => READ_BUFFER (15 downto 8) := SRAM(ADDRESS);
+                      READ_BUFFER (7 downto 0) := SRAM(ADDRESS+1);
+                      READ_BUFFER (31 downto 16) := (others => READ_BUFFER(15));
+        
+        when "101" => READ_BUFFER (15 downto 8) := SRAM(ADDRESS);
+                      READ_BUFFER (7 downto 0) := SRAM(ADDRESS+1);
+                      READ_BUFFER (31 downto 16) := (others => '0');
+                      
+        when "000" => READ_BUFFER (7 downto 0) := SRAM(ADDRESS);
+                      READ_BUFFER (31 downto 8) := (others => READ_BUFFER(7));
+                      
+        when "100" => READ_BUFFER (7 downto 0) := SRAM(ADDRESS);
+                      READ_BUFFER (31 downto 8) := (others => '0');
+        
+        when others => READ_BUFFER(31 downto 24) := SRAM(ADDRESS);
+                       READ_BUFFER(23 downto 16) := SRAM(ADDRESS+1);
+                       READ_BUFFER(15 downto 8) := SRAM(ADDRESS+2);
+                       READ_BUFFER(7 downto 0) := SRAM(ADDRESS+3);
+    end case;
+    DATA_OUT <= READ_BUFFER;
+end process;
 
 
 
-process(CLK, WRITE, WIDTH) is
-    variable work_buffer : STD_LOGIC_VECTOR(31 downto 0);
+process(CLK, WRITE, WRITE_MASK) is
     variable ADDRESS : integer;
     begin
     ADDRESS := to_integer(unsigned(BYTE_ADD(30 downto 0)));
     if(ADDRESS > SRAM'length or ADDRESS < 0) then
         ADDRESS := 0;
     end if;
-    work_buffer(31 downto 24) := SRAM(ADDRESS);
-    work_buffer(23 downto 16) := SRAM(ADDRESS+1);
-    work_buffer(15 downto 8) := SRAM(ADDRESS+2);
-    work_buffer(7 downto 0) := SRAM(ADDRESS+3);
-
     if (WRITE = '1' and rising_edge(CLK)) then
-        work_buffer := work_buffer and not WRITE_MASK;
-        work_buffer := work_buffer or (DATA_IN and WRITE_MASK);
-        SRAM(ADDRESS) <= work_buffer(31 downto 24);
-        SRAM(ADDRESS+1) <= work_buffer(23 downto 16);
-        SRAM(ADDRESS+2) <= work_buffer(15 downto 8);
-        SRAM(ADDRESS+3) <= work_buffer(7 downto 0);
+        case WRITE_MASK is
+            when x"000000FF" => SRAM(ADDRESS) <= DATA_IN(7 downto 0);
+            when x"0000FFFF" => SRAM(ADDRESS) <= DATA_IN(15 downto 8); 
+                                SRAM(ADDRESS+1) <= DATA_IN(7 downto 0);
+            when x"FFFFFFFF" => SRAM(ADDRESS) <= DATA_IN(31 downto 24); 
+                                SRAM(ADDRESS+1) <= DATA_IN(23 downto 16); 
+                                SRAM(ADDRESS+2) <= DATA_IN(15 downto 8); 
+                                SRAM(ADDRESS+3) <= DATA_IN(7 downto 0);
+             when others => --do nothing
+        end case;
     end if;
 end process;
 
