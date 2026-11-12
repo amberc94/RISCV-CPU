@@ -42,6 +42,7 @@ signal ALU_OUT      : STD_LOGIC_VECTOR(31 downto 0);
 signal ALU_CONTROL  : STD_LOGIC_VECTOR(3 downto 0);
 signal ZR           : STD_LOGIC;
 signal NG           : STD_LOGIC;
+signal GT           : STD_LOGIC;
 signal SIGN         : STD_LOGIC;
 
 signal BRANCH_TYPE  : STD_LOGIC_VECTOR(2 downto 0);
@@ -143,7 +144,8 @@ ALU: entity work.ALU port map(
     ALU_CONTROL => ALU_CONTROL,
     ALU_RESULT => ALU_OUT,
     ZR => ZR,
-    NG => NG
+    NG => NG,
+    GT => GT
 );
 
 -- in: ALU Type, instructions
@@ -202,6 +204,7 @@ BranchLogic: entity work.BranchLogic port map(
     BRANCH_TYPE => BRANCH_TYPE,
     ZR => ZR,
     NG => NG,
+    GT => GT,
     BRANCH => B_LOGIC
     );
     

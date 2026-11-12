@@ -34,13 +34,11 @@ process(IMM_SELECT, Instructions) begin
             Immediate(10 downto 5) <= Instructions(30 downto 25);
             Immediate(4 downto 1) <= Instructions (11 downto 8);
             Immediate(0) <= Instructions(7);
-        
         when U_TYPE =>
             Immediate <= Instructions;
             for i in 11 downto 0 loop
                 Immediate(i) <= '0';
             end loop;
-                   
         when B_TYPE =>
             for i in 31 downto 12 loop
                 Immediate(i) <= Instructions(31);

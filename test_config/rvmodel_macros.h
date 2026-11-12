@@ -40,7 +40,15 @@
 
 ##### IO #####
 #define RVMODEL_IO_WRITE_STR(_R1, _R2, _R3, _STR_PTR) \
-	nop
+1:                           ;                        \
+  lbu  _R1, 0(_STR_PTR)      ; /* Load byte */        \
+  beqz _R1, 3f               ; /* Exit if null */     \
+2:                           ;                        \
+  li   _R2, 0x10000000       ; /* console */          \
+  sw   _R1, 0(_R2)           ;                        \
+  addi _STR_PTR, _STR_PTR, 1 ; /* Next char */        \
+  j 1b                       ; /* Loop */             \
+3:	
 
 ##### Access Fault #####
 
