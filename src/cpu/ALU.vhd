@@ -54,14 +54,17 @@ case ALU_CONTROL is
         ALU_RESULT <= (A OR B);
     when ALU_SLT =>
         if sign = '1' then
-            SHIFT_BUFFER := std_logic_vector(signed(A) - signed(B));
-        else
-            SHIFT_BUFFER := std_logic_vector(unsigned(A) - unsigned(B));
-        end if;
-        if(signed(SHIFT_BUFFER) < 0) then
-            ALU_RESULT <= x"00000001";
-        else
-            ALU_RESULT <= x"00000000";
+           if(signed(A) < signed(B)) then
+                ALU_RESULT <= x"00000001";
+            else
+                ALU_RESULT <= x"00000000";
+            end if;
+        else 
+            if(unsigned(A) < unsigned(B)) then
+                ALU_RESULT <= x"00000001";
+            else
+                ALU_RESULT <= x"00000000";
+            end if;
         end if;
      -- we only ever care about shifting by up to 32, so just pull the bottom 5 bits (0 - 63 possible shifts)
      when ALU_SLL =>
