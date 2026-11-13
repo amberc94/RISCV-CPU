@@ -14,6 +14,6 @@ for file in /home/amber/RISCV-CPU/src/tests/*.txt; do
 	fi
 done
 duration=$SECONDS
-tests=$(grep -c "FFFFFFFF" "/home/amber/RISCV-CPU/sim/test.txt)"
+tests=$(grep -c "FFFFFFFF" "/home/amber/RISCV-CPU/sim/test.txt")
 echo "Elapsed time: $((duration/60)):$((duration % 60))"
 echo "Tests passed: $tests"
