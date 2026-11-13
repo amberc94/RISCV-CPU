@@ -26,7 +26,6 @@ process(IMM_SELECT, Instructions) begin
                 Immediate(i) <= Instructions(31);
             end loop;
             Immediate(10 downto 0) <= Instructions(30 downto 20);
-            
         when S_TYPE =>
             for i in 31 downto 11 loop
                 Immediate(i) <= Instructions(31);

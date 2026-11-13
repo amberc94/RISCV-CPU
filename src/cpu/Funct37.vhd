@@ -39,8 +39,8 @@ begin
         ALU_SLT when(FUNC3 = "010" and (ALU_TYPE = F3 or ALU_TYPE = F7)) else                        -- SLT(I) Set Less Than
         ALU_SLT when(FUNC3 = "011" and (ALU_TYPE = F3 or ALU_TYPE = F7)) else                        -- SLT(I)U Set Less Than Unsigned
         ALU_SLL when(FUNC3 = "001" and (ALU_TYPE = F3 or ALU_TYPE = F7)) else                        -- SLL(I) Shift Left
-        ALU_SRL when(FUNC3 = "101" and ((ALU_TYPE = F3) or (ALU_TYPE = F7 and FUNC7(5) = '0'))) else -- SRL(I) Shift Right
-        ALU_SRA when(FUNC3 = "101" and ((ALU_TYPE = F3) or (ALU_TYPE = F7 and FUNC7(5) = '1'))) else -- SRAI Shift Right Arithmatic
+        ALU_SRL when(FUNC3 = "101" and ((ALU_TYPE = F3 and FUNC7(5) = '0') or (ALU_TYPE = F7 and FUNC7(5) = '0'))) else -- SRL(I) Shift Right
+        ALU_SRA when(FUNC3 = "101" and ((ALU_TYPE = F3 and FUNC7(5) = '1') or (ALU_TYPE = F7 and FUNC7(5) = '1'))) else -- SRAI Shift Right Arithmatic
         ALU_SUB when(ALU_TYPE = BRANCH and (FUNC3 = "110" or FUNC3 = "111")) else                    -- SUBU     
         ALU_ADD; -- fail to add
         
