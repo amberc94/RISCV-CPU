@@ -68,7 +68,7 @@ begin
   end loop;
 end procedure;
 
-constant RAM_DEPTH : natural := 400 * 1024; -- 256kb (64k words)
+constant RAM_DEPTH : natural := 400 * 1024 * 8; -- 256kb (64k words)
 constant RAM_WIDTH : natural := 8;
 
 type RAM_TYPE is array (0 to RAM_DEPTH -1) of STD_LOGIC_VECTOR(RAM_WIDTH -1 downto 0);

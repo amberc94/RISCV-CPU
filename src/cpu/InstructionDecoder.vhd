@@ -159,6 +159,7 @@ begin
         Instructions(11 downto 7) when OP,
         Instructions(11 downto 7) when OP_IMM,
         Instructions(11 downto 7) when JALR,
+        Instructions(11 downto 7) when JAL,
         Instructions(11 downto 7) when LOAD,
         Instructions(11 downto 7) when LUI,
         Instructions(11 downto 7) when AUIPC,

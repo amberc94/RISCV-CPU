@@ -53,7 +53,7 @@ begin
   end loop;
 end procedure;
 
-constant ROM_DEPTH : natural := 400 * 1024; -- 128kword
+constant ROM_DEPTH : natural := 400 * 1024 * 8; -- 128kword
 constant ROM_WIDTH : natural := 8;
 
 type ROM_TYPE is array (0 to ROM_DEPTH -1) of STD_LOGIC_VECTOR(ROM_WIDTH -1 downto 0);
