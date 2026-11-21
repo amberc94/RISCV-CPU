@@ -16,7 +16,6 @@ entity InstructionDecoder is
            REG_WRITE    : out STD_LOGIC;                        -- Register write
            WB_SELECT    : out STD_LOGIC_VECTOR(1 downto 0);     -- WB Mux selector
            MEM_WRITE    : out STD_LOGIC;                        -- LUT Ram write
-           MEM_READ     : out STD_LOGIC;                        -- LUT Ram read
            JB_SELECT    : out STD_LOGIC_VECTOR(1 downto 0);     -- PC Next mux selector
            IMM_SELECT   : out STD_LOGIC_VECTOR(2 downto 0);      -- Immediate Generator Logic
            RS1          : out STD_LOGIC_VECTOR(4 downto 0);      -- Rs1 address
@@ -103,19 +102,7 @@ begin
         '0' when AUIPC,
         '0' when LUI,
         '0' when others;    
-        
-    with OPCODE select MEM_READ <=
-        '0' when OP_IMM,
-        '0' when OP,
-        '0' when BRANCH,
-        '0' when JALR,
-        '1' when LOAD,
-        '0' when STORE,
-        '0' when JAL,
-        '0' when AUIPC,
-        '0' when LUI,
-        '0' when others;
-        
+                
     with OPCODE select JB_SELECT <=
         "00" when OP_IMM,
         "00" when OP,

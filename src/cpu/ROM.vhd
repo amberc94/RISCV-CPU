@@ -8,7 +8,8 @@ use work.all;
 entity ROM is
   Port ( 
         ADDRESS     : in STD_LOGIC_VECTOR(31 downto 0);
-        DATA_OUT    : out STD_LOGIC_VECTOR(31 downto 0)
+        DATA_OUT    : out STD_LOGIC_VECTOR(31 downto 0);
+        FLASH       : in STD_LOGIC
         );
 end ROM;
 

@@ -4,9 +4,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 use work.all;
 
 entity CPU is
-  Port ( CLOCK, RESET, PC_RESET   : in STD_LOGIC;
-         DEBUG_OUTPUT             : out STD_LOGIC_VECTOR(31 downto 0);
-         EBREAK                   : out STD_LOGIC
+  Port ( CLOCK, RESET, PC_RESET, FLASH  : in STD_LOGIC;
+         DEBUG_OUTPUT                   : out STD_LOGIC_VECTOR(31 downto 0);
+         EBREAK                         : out STD_LOGIC
         );
 end CPU;
 
@@ -19,7 +19,6 @@ signal ALU_TYPE     : STD_LOGIC_VECTOR(1 downto 0);
 signal REG_WRITE    : STD_LOGIC;
 signal WB_SELECT    : STD_LOGIC_VECTOR(1 downto 0);
 signal MEM_WRITE    : STD_LOGIC;
-signal MEM_READ     : STD_LOGIC;
 signal JB_SELECT    : STD_LOGIC_VECTOR(1 downto 0);
 signal IMM_SELECT   : STD_LOGIC_VECTOR(2 downto 0);
 signal RS1          : STD_LOGIC_VECTOR(4 downto 0);
@@ -75,7 +74,6 @@ InstructionDecoder: entity work.InstructionDecoder port map(
     REG_WRITE => REG_WRITE,
     WB_SELECT => WB_SELECT,
     MEM_WRITE => MEM_WRITE,
-    MEM_READ => MEM_READ,
     JB_SELECT => JB_SELECT,
     IMM_SELECT => IMM_SELECT,
     RS1 => RS1,
@@ -175,7 +173,6 @@ PC_NextMux: entity work.PC_NextMux port map(
 RAM: entity work.RAM port map(
     CLK => CLOCK,
     WRITE => MEM_WRITE,
-    READ_FLAG => MEM_READ,
     BYTE_ADD => ALU_OUT,
     WIDTH => WIDTH,
     DATA_IN => REG_B_OUT,
@@ -194,7 +191,8 @@ DataSlicer : entity work.DataSlicer port map(
 -- out: instructions
 ROM: entity work.ROM port map(
     ADDRESS => PC_OUT,
-    DATA_OUT => Instructions
+    DATA_OUT => Instructions, 
+    FLASH => FLASH
 );
 
 -- 010 is the only func3 that doesn't branch so we'll use that as a disable

@@ -21,7 +21,6 @@ entity RAM is
     Port (
         CLK     : in STD_LOGIC;
         WRITE   : in STD_LOGIC;
-        READ_FLAG : in STD_LOGIC;
         BYTE_ADD : in STD_LOGIC_VECTOR(31 downto 0);
         WIDTH    : in STD_LOGIC_VECTOR(2 downto 0);
         DATA_IN : in STD_LOGIC_VECTOR(31 downto 0);
@@ -155,57 +154,5 @@ process(CLK, WRITE, WRITE_MASK) is
         end case;
     end if;
 end process;
-
-
---signal BLOCK256_ADD    : STD_LOGIC_VECTOR(5 downto 0);
---signal BLOCK4KB_ADD    : STD_LOGIC_VECTOR(3 downto 0);
---signal TOP_ADD         : STD_LOGIC_VECTOR(2 downto 0);
---signal WRITE_FLAG      : STD_LOGIC_VECTOR(7 downto 0) := x"00";
---type t_RAM_BUFFER is array (0 to 15) of std_logic_vector(31 downto 0);
---signal OUT_BUFFER   : t_RAM_BUFFER;
---signal WRITE_BUFFER : STD_LOGIC_VECTOR(31 downto 0);
---signal WRITE_MASK   : STD_LOGIC_VECTOR(31 downto 0) := x"00000000";
---signal ADDRESS     : STD_LOGIC_VECTOR(31 downto 0);
---begin
-
- --addresses get handed to use as bytes but we use word addressing so divide by 4
---ADDRESS <= std_logic_vector(shift_right(unsigned(BYTE_ADD), 2));
-
---BLOCK256_ADD <= ADDRESS(5 downto 0);
---BLOCK4KB_ADD <= ADDRESS(9 downto 6);
---TOP_ADD      <= ADDRESS(12 downto 10);
-
---x0: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(0), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(0), WRITE_MASK=>WRITE_MASK);
---x1: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(1), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(1), WRITE_MASK=>WRITE_MASK);
---x2: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(2), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(2), WRITE_MASK=>WRITE_MASK);
---x3: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(3), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(3), WRITE_MASK=>WRITE_MASK);
---x4: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(4), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(4), WRITE_MASK=>WRITE_MASK);
---x5: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(5), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(5), WRITE_MASK=>WRITE_MASK);
---x6: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(6), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(6), WRITE_MASK=>WRITE_MASK);
---x7: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(7), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(7), WRITE_MASK=>WRITE_MASK);
---x8: entity work.Block4kb port map(CLK=>CLK, WRITE=>WRITE_FLAG(8), ADDRESS=>ADDRESS, DATA_IN=>WRITE_BUFFER, DATA_OUT=>OUT_BUFFER(8), WRITE_MASK=>WRITE_MASK);
-
---DATA_OUT <= OUT_BUFFER(to_integer(unsigned(TOP_ADD)));
---WRITE_BUFFER <= DATA_IN;
-
---WRITE_MASK <=
---    x"0000FFFF" when WIDTH = "001" or WIDTH = "101" else -- half
---    x"000000FF" when WIDTH = "000" or WIDTH = "100" else -- byte
---    x"FFFFFFFF";
-    
---WRITE_FLAG <=
---    "00000001" when unsigned(TOP_ADD) = 0 else
---    "00000010" when unsigned(TOP_ADD) = 1 else 
---    "00000100" when unsigned(TOP_ADD) = 2 else
---    "00001000" when unsigned(TOP_ADD) = 3 else 
---    "00010000" when unsigned(TOP_ADD) = 4 else
---    "00100000" when unsigned(TOP_ADD) = 5 else 
---    "01000000" when unsigned(TOP_ADD) = 6 else
---    "10000000" when unsigned(TOP_ADD) = 7 else
---    "00000000";
-
- 
-       
-
 
 end Behavioral;
