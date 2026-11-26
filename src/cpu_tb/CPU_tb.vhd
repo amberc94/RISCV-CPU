@@ -27,7 +27,7 @@ signal PC_RESET : STD_LOGIC := '0';
 signal DEBUG_OUTPUT : STD_LOGIC_VECTOR(31 downto 0);
 signal EBREAK   : STD_LOGIC := '0';
 
-constant ClockFreq : integer := 10e6; --1Mhz
+constant ClockFreq : integer := 1e8; --100Mhz
 constant ClockPeriod : time := 1000 ms / ClockFreq;
 
 

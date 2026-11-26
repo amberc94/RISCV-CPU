@@ -11,105 +11,94 @@ end UART_tb;
 architecture Behavioral of UART_tb is
 
 component UART is
-    Port( CLK       : in STD_LOGIC;
-          DATA_IN   : in STD_LOGIC_VECTOR(7 downto 0);
-          DATA_OUT  : out STD_LOGIC_VECTOR(7 downto 0);
-          TX_SIG  : in STD_LOGIC;
-          TX_RST  : in STD_LOGIC;
-          TX_RDY  : inout STD_LOGIC;
-          TX        : inout STD_LOGIC
-        );
+   Port ( CLK           : in STD_LOGIC; -- SYS CLOCK
+          RESET         : in STD_LOGIC; -- reset
+          DATA_IN       : in STD_LOGIC_VECTOR(7 downto 0);-- data to send
+          TX_SIG        : in STD_LOGIC; -- signal to tx
+          TX_RDY        : out STD_LOGIC; -- signal we are ready to tx
+          TX            : out STD_LOGIC;  -- actual serial output
+          RX            : in STD_LOGIC;   -- actual serial input
+          RX_EN         : in STD_LOGIC;   -- enable rx
+          RX_DATA       : out STD_LOGIC_VECTOR(7 downto 0);  -- the data we've recived
+          RX_SIG        : out STD_LOGIC    -- signal that we have data available
+       );
 end component;
 
 signal CLOCK        : STD_LOGIC := '0';
 signal DATA_IN      : STD_LOGIC_VECTOR(7 downto 0);
 signal DATA_OUT     : STD_LOGIC_VECTOR(7 downto 0);
 signal TX_SIG       : STD_LOGIC;
-signal TX_RST       : STD_LOGIC;
 signal TX_RDY       : STD_LOGIC;
 signal TX           : STD_LOGIC;
+signal RX           : STD_LOGIC;
+signal RX_EN        : STD_LOGIC;
+signal RX_SIG       : STD_LOGIC;
+signal RESET        : STD_LOGIC;
 
 
-constant ClockFreq  : integer := 10e6;
+constant ClockFreq  : integer := 10e8;
 constant ClockPeriod: time := 1000 ms / ClockFreq;
 
 begin
 
 uut: UART port map (
     CLK => CLOCK,
+    RESET => RESET,
     DATA_IN => DATA_IN,
-    DATA_OUT => DATA_OUT,
     TX_SIG => TX_SIG,
-    TX_RST => TX_RST,
     TX_RDY => TX_RDY,
-    TX => TX
+    TX => TX,
+    RX => RX,
+    RX_EN => RX_EN,
+    RX_DATA => DATA_OUT,
+    RX_SIG => RX_SIG
     );
+    
+    RX <= TX;
+    RX_EN <= '1';
     
     CLOCK <= not CLOCK after ClockPeriod /2;
     
-    stim_proc: process is
-    variable outline : line; 
-    begin
-    
-       DATA_IN <= x"68"; -- H
-       TX_SIG <= '1';
-       wait until TX_RDY = '0';
-       TX_SIG <= '0';
-       wait until TX_RDY = '1';
-       report "" & character'val(to_integer(unsigned(DATA_OUT)));
-       
-       DATA_IN <= x"65"; -- E
-       TX_SIG <= '1';
-       wait until TX_RDY = '0';
-       TX_SIG <= '0';
-       wait until TX_RDY = '1';
-       report "" & character'val(to_integer(unsigned(DATA_OUT)));
-       
-       DATA_IN <= x"6C"; -- L
-       TX_SIG <= '1';
-       wait until TX_RDY = '0';
-       TX_SIG <= '0';    
-       wait until TX_RDY = '1';
-       report "" & character'val(to_integer(unsigned(DATA_OUT)));
-       
-       DATA_IN <= x"6C"; -- L
-       TX_SIG <= '1';
-       wait until TX_RDY = '0';
-       TX_SIG <= '0'; 
-       wait until TX_RDY = '1';
-       report "" & character'val(to_integer(unsigned(DATA_OUT)));
-       
-       DATA_IN <= x"6F"; -- O
-       TX_SIG <= '1';
-       wait until TX_RDY = '0';
-       TX_SIG <= '0'; 
-       wait until TX_RDY = '1';
-       report "" & character'val(to_integer(unsigned(DATA_OUT)));
-       
-       wait for 1ns;
-       finish;
-     end process;
-     
---     uart_logger: process is
---        constant BAUD_RATE  : integer := 9600;
---        constant BIT_PERIOD : time := 1 sec / BAUD_RATE;
---        variable outline    : line;
---     begin
---        wait until TX = '0';
---        wait for BIT_PERIOD * 1.5;
+    stim_proc:process begin
+        RESET <= '1';
+        wait for 100ns;
+        RESET <= '0';
         
---        for i in 0 to 7 loop
---            DATA_OUT(i) <= TX;
---            wait for BIT_PERIOD;
---        end loop;
+        wait for ClockPeriod*10;
         
---        if TX = '1' then
---            write(outline, character'val(to_integer(unsigned(DATA_OUT))));
---            if DATA_OUT = x"0A" then
---                writeline(output, outline);
---            end if;
---        end if;
---  end process uart_logger;
+        DATA_IN <= x"48";
+        TX_SIG <= '1';
+        wait until TX_RDY = '0';
+        TX_SIG <= '0';
         
-     
+        wait until TX_RDY = '1';
+        DATA_IN <= x"45";
+        TX_SIG <= '1';
+        wait until TX_RDY = '0';
+        TX_SIG <= '0';
+        
+        wait until TX_RDY = '1';
+        DATA_IN <= x"4c";
+        TX_SIG <= '1';
+        wait until TX_RDY = '0';
+        TX_SIG <= '0';
+        
+        wait until TX_RDY = '1';
+        DATA_IN <= x"4c";
+        TX_SIG <= '1';
+        wait until TX_RDY = '0';
+        TX_SIG <= '0';
+        
+        wait until TX_RDY = '1';
+        DATA_IN <= x"4f";
+        TX_SIG <= '1';
+        wait until TX_RDY = '0';
+        TX_SIG <= '0';
+        
+        
+        wait until TX_RDY = '1';
+        
+        finish;
+    end process;
+ 
 end Behavioral;
