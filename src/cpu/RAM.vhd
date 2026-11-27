@@ -67,7 +67,7 @@ begin
   end loop;
 end procedure;
 
-constant RAM_DEPTH : natural := 16 * 1024 * 1024; -- 16mb
+constant RAM_DEPTH : natural := 4 * 1024 * 1024; -- 4mb
 constant RAM_WIDTH : natural := 8;
 
 type RAM_TYPE is array (0 to RAM_DEPTH -1) of STD_LOGIC_VECTOR(RAM_WIDTH -1 downto 0);
@@ -105,7 +105,11 @@ process (BYTE_ADD, WIDTH) is
    variable ADDRESS : integer;
    variable READ_BUFFER : STD_LOGIC_VECTOR(31 downto 0);
     begin
-    ADDRESS := to_integer(unsigned(BYTE_ADD(30 downto 0)) - x"20000000"); -- offset 
+    -- since we only have 4mb of ram, we need roughly 24 bits to address it (22 really)
+    -- and since the offset is 0x20000000, that offset is stored in the upper byte that we can safely ignore
+    -- if we were working with larger amounts of ram we would need to handle this more elegantly
+    -- but for now this gets us around to_integer throwing an overflow error when subtracting the ram offset
+    ADDRESS := to_integer(unsigned(BYTE_ADD(23 downto 0))); 
     if(ADDRESS > SRAM'length -1) then
         ADDRESS := 0;
     end if;
