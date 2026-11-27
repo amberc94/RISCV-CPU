@@ -10,8 +10,7 @@
 # Perform boot operations. Can be empty or left undefined unless needed for
 # DUT-specific behavior such as turning on a memory controller or
 # initializing custom state.
-//#define RVMODEL_BOOT
-
+//#define RVMODEL_BOOT 
 // Custom RVMODEL_BOOT_TO_MMODE overrides default RVTEST_BOOT_TO_MMODE
 // if defined.  For most DUTs, the default should work and this macro
 // should not be defined.  If the DUT has no standard M-mode CSRs, do not
@@ -44,7 +43,7 @@
   lbu  _R1, 0(_STR_PTR)      ; /* Load byte */        \
   beqz _R1, 3f               ; /* Exit if null */     \
 2:                           ;                        \
-  li   _R2, 0x10000000       ; /* console */          \
+  li   _R2, 0x40000000      ; /* console */          \
   sw   _R1, 0(_R2)           ;                        \
   addi _STR_PTR, _STR_PTR, 1 ; /* Next char */        \
   j 1b                       ; /* Loop */             \

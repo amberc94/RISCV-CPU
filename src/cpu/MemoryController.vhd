@@ -1,6 +1,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
 use work.config_pkg.all;
 
 
@@ -39,6 +40,23 @@ begin
 RAM: entity work.RAM port map(CLK=>CLK, BYTE_ADD=>RAM_ADDRESS, DATA_IN => RAM_BUFFER, WRITE=>WRITE, WIDTH=>WIDTH, DATA_OUT=>RAM_OUT);
 ROM: entity work.ROM port map(ADDRESS=>ROM_ADDRESS, DATA_OUT=>ROM_OUT, FLASH=>FLASH);
 UART: entity work.UART port map(CLK=>CLK, RESET=>'0', DATA_IN => UART_WRITE_BUFFER, TX_SIG=>UART_WRITE, TX_RDY=>TX_RDY, TX => TX, RX =>RX, RX_EN => UART_READ, RX_DATA => UART_READ_BUFFER, RX_SIG=>RX_SIG);
+
+process(RAM_ADDRESS, DATA_IN) is begin
+    -- we don't want to be able to write to ROM, but we still want to be able to read from it
+    if (unsigned(RAM_ADDRESS) < x"20000000") then
+        RAM_BUFFER <= x"00000000";
+        RAM_WRITE <= '0';
+        UART_WRITE <= '0';
+    elsif (unsigned(RAM_ADDRESS) < x"40000000") then
+        RAM_BUFFER <= DATA_IN;
+        RAM_WRITE <= '1';
+        UART_WRITE <= '0';
+    elsif (unsigned(RAM_ADDRESS) >= x"40000000") then
+        UART_WRITE_BUFFER <= DATA_IN(7 downto 0);           -- for the current moment we're just going to assume we'll only be writing singluar bytes at a time
+        RAM_WRITE <= '0';
+        UART_WRITE <= '1';
+   end if;
+end process;
 
 
 

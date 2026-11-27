@@ -67,7 +67,7 @@ begin
   end loop;
 end procedure;
 
-constant RAM_DEPTH : natural := 400 * 1024 * 8; -- 256kb (64k words)
+constant RAM_DEPTH : natural := 16 * 1024 * 1024; -- 16mb
 constant RAM_WIDTH : natural := 8;
 
 type RAM_TYPE is array (0 to RAM_DEPTH -1) of STD_LOGIC_VECTOR(RAM_WIDTH -1 downto 0);
@@ -105,7 +105,7 @@ process (BYTE_ADD, WIDTH) is
    variable ADDRESS : integer;
    variable READ_BUFFER : STD_LOGIC_VECTOR(31 downto 0);
     begin
-    ADDRESS := to_integer(unsigned(BYTE_ADD(30 downto 0)));
+    ADDRESS := to_integer(unsigned(BYTE_ADD(30 downto 0)) - x"20000000"); -- offset 
     if(ADDRESS > SRAM'length -1) then
         ADDRESS := 0;
     end if;

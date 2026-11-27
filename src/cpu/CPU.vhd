@@ -170,14 +170,14 @@ PC_NextMux: entity work.PC_NextMux port map(
 
 --in: Mem write, mem read, address
 --out: data out -> WB_mux
-RAM: entity work.RAM port map(
-    CLK => CLOCK,
-    WRITE => MEM_WRITE,
-    BYTE_ADD => ALU_OUT,
-    WIDTH => WIDTH,
-    DATA_IN => REG_B_OUT,
-    DATA_OUT => MEM_OUT
-    );
+--RAM: entity work.RAM port map(
+--    CLK => CLOCK,
+--    WRITE => MEM_WRITE,
+--    BYTE_ADD => ALU_OUT,
+--    WIDTH => WIDTH,
+--    DATA_IN => REG_B_OUT,
+--    DATA_OUT => MEM_OUT
+--    );
 
 -- in: width, mem_out
 -- out: slice_out => WB_MEM_IN
@@ -189,11 +189,11 @@ DataSlicer : entity work.DataSlicer port map(
 
 -- in: PC
 -- out: instructions
-ROM: entity work.ROM port map(
-    ADDRESS => PC_OUT,
-    DATA_OUT => Instructions, 
-    FLASH => FLASH
-);
+--ROM: entity work.ROM port map(
+ --   ADDRESS => PC_OUT,
+ --   DATA_OUT => Instructions, 
+ --   FLASH => FLASH
+--);
 
 -- 010 is the only func3 that doesn't branch so we'll use that as a disable
 -- in: Branch Type
@@ -216,6 +216,18 @@ BranchLogic: entity work.BranchLogic port map(
     WB_SELECT => WB_SELECT,
     WB_OUT => WB_OUT
  );
+ 
+MemControl: entity MemoryController port map(
+          CLK => CLOCK,
+          RAM_ADDRESS => ALU_OUT,
+          DATA_IN => REG_B_OUT,
+          ROM_ADDRESS => PC_OUT,
+          WIDTH => WIDTH,
+          WRITE => MEM_WRITE,
+          FLASH => FLASH,
+          RAM_OUT => MEM_OUT,
+          ROM_OUT => Instructions
+          );
  
  DEBUG_OUTPUT <= DUMP_REG;
  
