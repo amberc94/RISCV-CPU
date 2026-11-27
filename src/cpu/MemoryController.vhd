@@ -22,17 +22,23 @@ entity MemoryController is
 end MemoryController;
 
 architecture Behavioral of MemoryController is
-signal RAM_BUFFER   : STD_LOGIC_VECTOR(31 downto 0);
-signal ROM_BUFFER   : STD_LOGIC_VECTOR(31 downto 0);
-signal UART_BUFFER  : STD_LOGIC_VECTOR(31 downto 0);
-signal RAM_WRITE    : STD_LOGIC;
-signal ROM_WRITE    : STD_LOGIC;
-signal UART_WRITE   : STD_LOGIC;
+signal RAM_BUFFER           : STD_LOGIC_VECTOR(31 downto 0);
+signal ROM_BUFFER           : STD_LOGIC_VECTOR(31 downto 0);
+signal UART_WRITE_BUFFER    : STD_LOGIC_VECTOR(7 downto 0);
+signal UART_READ_BUFFER     : STD_LOGIC_VECTOR(7 downto 0);
+signal RAM_WRITE            : STD_LOGIC;
+signal ROM_WRITE            : STD_LOGIC;
+signal UART_WRITE           : STD_LOGIC;
+signal UART_READ            : STD_LOGIC;
+signal TX_RDY               : STD_LOGIC;
+signal TX                   : STD_LOGIC;
+signal RX_SIG               : STD_LOGIC;
+signal RX                   : STD_LOGIC;
 begin
 
 RAM: entity work.RAM port map(CLK=>CLK, BYTE_ADD=>RAM_ADDRESS, DATA_IN => RAM_BUFFER, WRITE=>WRITE, WIDTH=>WIDTH, DATA_OUT=>RAM_OUT);
 ROM: entity work.ROM port map(ADDRESS=>ROM_ADDRESS, DATA_OUT=>ROM_OUT, FLASH=>FLASH);
---UART entity work.UART port map(CLK=>CLK, DATA_IN=>UART_BUFFER, DATA_OUT=>DATA_OUT);
+UART: entity work.UART port map(CLK=>CLK, RESET=>'0', DATA_IN => UART_WRITE_BUFFER, TX_SIG=>UART_WRITE, TX_RDY=>TX_RDY, TX => TX, RX =>RX, RX_EN => UART_READ, RX_DATA => UART_READ_BUFFER, RX_SIG=>RX_SIG);
 
 
 
