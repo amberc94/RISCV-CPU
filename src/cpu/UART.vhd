@@ -52,6 +52,7 @@ clk_gen: process(CLK) is begin
         else
             if RX_CLK_RESET = '1' then
                 RX_TICK_COUNT <= (SYS_CLOCK/16);
+                RX_CLK_RESET <= '0';
             else
                 RX_TICK_COUNT <= RX_TICK_COUNT -1;
             end if;
@@ -102,6 +103,8 @@ tx_proc:process(TX_CLK) is begin
         end if;
     end if;
 end process;
+
+
 
 rx_proc:process(CLK, RESET, RX) is begin
     if rising_edge(CLK) then
