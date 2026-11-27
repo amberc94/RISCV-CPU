@@ -18,7 +18,10 @@ entity MemoryController is
           WRITE         : in STD_LOGIC;
           FLASH         : in STD_LOGIC;
           RAM_OUT       : out STD_LOGIC_VECTOR(31 downto 0);
-          ROM_OUT       : out STD_LOGIC_VECTOR(31 downto 0)
+          ROM_OUT       : out STD_LOGIC_VECTOR(31 downto 0);
+          UART_OUT      : out STD_LOGIC_VECTOR(7 downto 0);
+          RX_SIG        : out STD_LOGIC;
+          TX_SIG        : out STD_LOGIC
           );
 end MemoryController;
 
@@ -33,13 +36,13 @@ signal UART_WRITE           : STD_LOGIC;
 signal UART_READ            : STD_LOGIC;
 signal TX_RDY               : STD_LOGIC;
 signal TX                   : STD_LOGIC;
-signal RX_SIG               : STD_LOGIC;
+--signal RX_SIG               : STD_LOGIC;
 signal RX                   : STD_LOGIC;
 begin
 
 RAM: entity work.RAM port map(CLK=>CLK, BYTE_ADD=>RAM_ADDRESS, DATA_IN => RAM_BUFFER, WRITE=>WRITE, WIDTH=>WIDTH, DATA_OUT=>RAM_OUT);
 ROM: entity work.ROM port map(ADDRESS=>ROM_ADDRESS, DATA_OUT=>ROM_OUT, FLASH=>FLASH);
-UART: entity work.UART port map(CLK=>CLK, RESET=>'0', DATA_IN => UART_WRITE_BUFFER, TX_SIG=>UART_WRITE, TX_RDY=>TX_RDY, TX => TX, RX =>RX, RX_EN => UART_READ, RX_DATA => UART_READ_BUFFER, RX_SIG=>RX_SIG);
+UART: entity work.UART port map(CLK=>CLK, RESET=>'0', DATA_IN => UART_WRITE_BUFFER, TX_SIG=>UART_WRITE, TX_RDY=>TX_RDY, TX => TX, RX =>RX, RX_EN => UART_READ, RX_DATA => UART_OUT, RX_SIG=>RX_SIG);
 
 process(RAM_ADDRESS, DATA_IN) is begin
     -- we don't want to be able to write to ROM, but we still want to be able to read from it

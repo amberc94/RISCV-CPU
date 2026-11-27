@@ -17,7 +17,9 @@ component CPU is port(
     RESET   : in STD_LOGIC;
     PC_RESET : in STD_LOGIC;
     DEBUG_OUTPUT : out STD_LOGIC_VECTOR(31 downto 0);
-    EBREAK  : out STD_LOGIC
+    EBREAK  : out STD_LOGIC;
+    UART_OUT : out STD_LOGIC_VECTOR(7 downto 0);
+    RX_SIG      : out STD_LOGIC
     );
 end component;
 
@@ -26,6 +28,8 @@ signal RESET    : STD_LOGIC := '0';
 signal PC_RESET : STD_LOGIC := '0';
 signal DEBUG_OUTPUT : STD_LOGIC_VECTOR(31 downto 0);
 signal EBREAK   : STD_LOGIC := '0';
+signal UART_OUT : STD_LOGIC_VECTOR(7 downto 0);
+signal RX_SIG   : STD_LOGIC;
 
 constant ClockFreq : integer := 1e8; --100Mhz
 constant ClockPeriod : time := 1000 ms / ClockFreq;
@@ -37,7 +41,9 @@ begin
         RESET => RESET,
         PC_RESET => PC_RESET,
         DEBUG_OUTPUT => DEBUG_OUTPUT,
-        EBREAK => EBREAK
+        EBREAK => EBREAK,
+        UART_OUT => UART_OUT,
+        RX_SIG => RX_SIG
     );
     
     CLOCK <= not CLOCK after ClockPeriod / 2;
@@ -54,6 +60,10 @@ begin
     
    while(EBREAK /= '1') loop
         wait for ClockPeriod;
+--        if(falling_edge(RX_SIG)) then
+--           hwrite(lineout, UART_OUT);
+--          writeline(test_out, lineout);
+--       end if;
     end loop;
         
     hwrite(lineout, DEBUG_OUTPUT);

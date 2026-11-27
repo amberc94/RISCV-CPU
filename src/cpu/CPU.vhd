@@ -4,9 +4,12 @@ use IEEE.STD_LOGIC_1164.ALL;
 use work.all;
 
 entity CPU is
-  Port ( CLOCK, RESET, PC_RESET, FLASH  : in STD_LOGIC;
+  Port ( CLOCK, RESET, PC_RESET         : in STD_LOGIC;
          DEBUG_OUTPUT                   : out STD_LOGIC_VECTOR(31 downto 0);
-         EBREAK                         : out STD_LOGIC
+         EBREAK                         : out STD_LOGIC;
+         UART_OUT                       : out STD_LOGIC_VECTOR(7 downto 0);
+         RX_SIG                         : out STD_LOGIC;
+         TX_SIG                         : out STD_LOGIC
         );
 end CPU;
 
@@ -224,9 +227,12 @@ MemControl: entity MemoryController port map(
           ROM_ADDRESS => PC_OUT,
           WIDTH => WIDTH,
           WRITE => MEM_WRITE,
-          FLASH => FLASH,
+          FLASH => '0', -- unused atm
           RAM_OUT => MEM_OUT,
-          ROM_OUT => Instructions
+          ROM_OUT => Instructions,
+          UART_OUT => UART_OUT,
+          RX_SIG => RX_SIG,
+          TX_SIG => TX_SIG
           );
  
  DEBUG_OUTPUT <= DUMP_REG;
